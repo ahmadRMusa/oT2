@@ -12,7 +12,8 @@ let model = {
     cleanText: function(){
         // TODO: filter out non-whitelisted HTML
         return this.get('text');
-    }
+    },
+    wordCount: 0
 };
 
 let controller = new Ractive({
@@ -34,13 +35,27 @@ editor.on('change',function(){
     controller.set('_userEditing',false);
 });
 
+// small utility for getting the word count of a string
+// originally contributed by Piotr Tarasewicz
+function countWords(str){
+    var trimmedStr = str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,'');
+    if (trimmedStr){
+        return trimmedStr.match(/[\S]+/gi).length;
+    }
+    return 0;
+}
+
 // when text in model is set programmatically, update editor
 controller.observe('text', function(newValue, oldValue){
     if ( !controller.get('_userEditing') ) {
         editor.setContent(newValue, 'html');
     }
+    controller.set('wordCount',
+        countWords(
+            editor.getContent('text')
+        )
+    );
 });
-
 
 export {controller as transcriptController};
 
