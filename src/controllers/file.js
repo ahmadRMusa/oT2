@@ -1,6 +1,6 @@
 let Ractive = require('ractive');
 let prosemirror = require("prosemirror");
-let template = require('raw!../templates/transcript.html');
+let template = require('raw!../templates/file.html');
 
 let model = {
     date: +(new Date()),
@@ -57,6 +57,6 @@ controller.observe('text', function(newValue, oldValue){
     );
 });
 
-export {controller as transcriptController};
+export {controller as fileController};
 
 
