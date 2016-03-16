@@ -4,8 +4,7 @@ module.exports = {
     app: ['./src/index.js'] // This is the main file that gets loaded first; the "bootstrap", if you will.
   },
   output: { // Transpiled and bundled output gets put in `build/bundle.js`.
-    path: path.resolve(__dirname, 'build'),
-    publicPath: '/assets/', // But it gets served as "assets" for testing purposes.
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'   // Really, you want to upload index.html and assets/bundle.js
   },
 
