@@ -14,3 +14,10 @@ Then start the Webpack build system by running:
     npm start
   
 oTranscribe should then be accessible at [localhost:8080](http://localhost:8080).
+
+
+## Testing
+
+Assuming you have already installed dependencies, run:
+
+    npm test
