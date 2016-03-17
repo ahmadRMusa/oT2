@@ -30,7 +30,7 @@
   "scripts": {
     "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --content-base src/",
     "test": "./node_modules/karma/bin/karma start",
-    "build": "rm -rf ./build && mkdir ./build && cp src/index.html ./build/index.html && ./node_modules/webpack/bin/webpack.js --watch  --content-base src/"
+    "build": "rm -rf ./dist && mkdir ./dist && cp src/index.html ./dist/index.html && ./node_modules/webpack/bin/webpack.js --watch  --content-base src/"
   },
   "author": "",
   "license": "MIT"

@@ -15,6 +15,9 @@ Then start the Webpack build system by running:
   
 oTranscribe should then be accessible at [localhost:8080](http://localhost:8080).
 
+To build a distributable `dist` folder, run:
+
+    npm run build
 
 ## Testing
 
