@@ -1,10 +1,14 @@
 let localforage = require('localforage');
-import {fileController} from './controllers/file';
+import {FileController} from './controllers/file';
 import {Storage} from './storage';
 
 let settings = {
     skipTime: 1.5
 };
+
+let fileController = FileController({
+    element: document.querySelector('.transcript-container')
+});
 
 // let storage = localforage.createInstance({
 //     name: 'oTranscribe'
