@@ -1,5 +1,6 @@
 let localforage = require('localforage');
 import {FileController} from './controllers/file';
+import {MediaController} from './controllers/media';
 import {Storage} from './storage';
 
 let settings = {
@@ -8,6 +9,9 @@ let settings = {
 
 let fileController = FileController({
     element: document.querySelector('.transcript-container')
+});
+let mediaController = MediaController({
+    element: document.querySelector('.media-container')
 });
 
 // let storage = localforage.createInstance({

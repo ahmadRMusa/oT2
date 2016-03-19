@@ -1,4 +1,5 @@
 let Ractive = require('ractive');
+Ractive.DEBUG = false;
 let template = require('raw!../templates/file.html');
 let Scribe = require('scribe-editor');
 
