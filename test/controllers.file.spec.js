@@ -1,5 +1,6 @@
 import {FileController} from '../src/controllers/file';
 let Ractive = require('ractive');
+Ractive.DEBUG = false;
 let expect = require('chai').expect;
 
 let fileController = FileController({

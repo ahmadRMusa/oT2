@@ -1,5 +1,6 @@
 let localforage = require('localforage');
 import {FileController} from './controllers/file';
+import {MediaController} from './controllers/media';
 import {Storage} from './storage';
 
 let settings = {

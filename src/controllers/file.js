@@ -1,4 +1,5 @@
 let Ractive = require('ractive');
+Ractive.DEBUG = false;
 let prosemirror = require("prosemirror");
 let template = require('raw!../templates/file.html');
 
