@@ -1,6 +1,6 @@
 let Ractive = require('ractive');
-let prosemirror = require("prosemirror");
 let template = require('raw!../templates/file.html');
+let Scribe = require('scribe-editor');
 
 /*
 opts:
@@ -27,18 +27,8 @@ function createFileController(opts){
         data: model
     });
 
-    let editor = new prosemirror.ProseMirror({
-        place: controller.find('.text-editor'),
-        docFormat: 'html',
-        doc: ''
-    });
-
-    // when user types something update the model
-    editor.on('change',function(){
-        controller.set('_userEditing',true);
-        controller.set('text', editor.getContent('html'));
-        controller.set('_userEditing',false);
-    });
+    let scribe = new Scribe(controller.find('.text-editor'));
+    console.log(scribe, scribe.el.innerHTML)
 
     // small utility for getting the word count of a string
     // originally contributed by Piotr Tarasewicz
@@ -49,19 +39,15 @@ function createFileController(opts){
         }
         return 0;
     }
-
-    // when text in model is set programmatically, update editor
-    controller.observe('text', function(newValue, oldValue){
-        if ( !controller.get('_userEditing') ) {
-            editor.setContent(newValue, 'html');
-        }
-        controller.set('wordCount',
-            countWords(
-                editor.getContent('text')
-            )
-        );
-    });
     
+    controller.on('insertTimestamp',() => {
+        scribe.insertHTML('<span style="color: red;" contentEditable=false>0:00</span>');
+        let stamps = scribe.el.querySelectorAll('span')
+        for (var i = 0; i < stamps.length; i++) {
+            stamps[i].setAttribute('contentEditable',false);
+        }
+    });
+
     return controller;
 }
 

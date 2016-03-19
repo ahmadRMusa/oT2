@@ -6,7 +6,8 @@
   "dependencies": {
     "localforage": "^1.4.0",
     "prosemirror": "^0.4.0",
-    "ractive": "^0.7.3"
+    "ractive": "^0.7.3",
+    "scribe-editor": "^2.2.0"
   },
   "devDependencies": {
     "babel-core": "^5.8.29",
