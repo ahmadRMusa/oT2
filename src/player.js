@@ -2,6 +2,10 @@ import {HTML5_AUDIO} from './player-drivers/html5-audio';
 
 /*
 
+options:
+- driver
+- source
+
 methods:
 - play
 - pause
@@ -46,6 +50,9 @@ let Player = function( opts ){
         } else {
             throw ('Skip requires a direction: forwards or backwards')
         }
+    },
+    self.getStatus = ()=>{
+        return driver.getStatus();
     }
     return self;
 };

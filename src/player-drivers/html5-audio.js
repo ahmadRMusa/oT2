@@ -4,9 +4,11 @@ let HTML5_AUDIO = function(source){
 }
 HTML5_AUDIO.prototype.play = function(){
     this.element.play();
+    this.status = 'playing';
 }
 HTML5_AUDIO.prototype.pause = function(){
     this.element.pause();
+    this.status = 'paused';
 }
 HTML5_AUDIO.prototype.getTime = function(){
     return this.element.currentTime;
@@ -14,7 +16,9 @@ HTML5_AUDIO.prototype.getTime = function(){
 HTML5_AUDIO.prototype.setTime = function(time){
     this.element.currentTime = time;
 }
-
+HTML5_AUDIO.prototype.getStatus = function(){
+    return this.status;
+}
 
 
 

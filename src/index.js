@@ -10,6 +10,9 @@ let settings = {
 let fileController = FileController({
     element: document.querySelector('.transcript-container')
 });
+let mediaController = MediaController({
+    element: document.querySelector('.media-container')
+});
 
 // let storage = localforage.createInstance({
 //     name: 'oTranscribe'

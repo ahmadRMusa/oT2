@@ -46,6 +46,12 @@ describe('audio player', () => {
             p.skip('back');
             expect( p.getTime() ).to.equal( 68.5 );
         });
+        it('should return correct status when playing and pausing', () => {
+            p.play();
+            expect( p.getStatus() ).to.equal( 'playing' );
+            p.pause();
+            expect( p.getStatus() ).to.equal( 'paused' );
+        });
         
     });
 });
