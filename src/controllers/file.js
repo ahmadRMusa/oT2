@@ -2,6 +2,7 @@ let Ractive = require('ractive');
 Ractive.DEBUG = false;
 let template = require('raw!../templates/file.html');
 let Scribe = require('scribe-editor');
+import {timestampPlugin} from '../scribe-timestamp-plugin';
 
 /*
 opts:
@@ -29,7 +30,7 @@ function createFileController(opts){
     });
 
     let scribe = new Scribe(controller.find('.text-editor'));
-    console.log(scribe, scribe.el.innerHTML)
+    scribe.use( timestampPlugin );
 
     // small utility for getting the word count of a string
     // originally contributed by Piotr Tarasewicz
@@ -41,15 +42,7 @@ function createFileController(opts){
         return 0;
     }
     
-    controller.on('insertTimestamp',() => {
-        scribe.insertHTML('<span style="color: red;" contentEditable=false>0:00</span>');
-        let stamps = scribe.el.querySelectorAll('span')
-        for (var i = 0; i < stamps.length; i++) {
-            stamps[i].setAttribute('contentEditable',false);
-        }
-    });
-
-    return controller;
+    return [controller, scribe];
 }
 
 export {createFileController as FileController};

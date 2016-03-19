@@ -10,7 +10,10 @@ opts:
 - element
 */
 function createMediaController(opts){
-    let model = {};
+    let model = {
+        status: 'paused',
+        time: 0
+    };
     if (!opts.element) {
         throw ('Needs element');
     }
@@ -24,6 +27,13 @@ function createMediaController(opts){
         driver: Player.drivers.HTML5_AUDIO,
         source: 'http://ejb.github.io/progressor.js/demos/echoplex.mp3'
     });
+    
+    function updateStatus(){
+        controller.set('status',player.getStatus());
+        controller.set('time',player.getTime());
+    }
+    
+    setInterval(updateStatus,100);
 
     controller.on('playPause',()=>{
         if (player.getStatus() !== 'playing') {
@@ -31,6 +41,7 @@ function createMediaController(opts){
         } else {
             player.pause();
         }
+        updateStatus();
     });
     
     Mousetrap.bind('esc', ()=> {

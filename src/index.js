@@ -3,15 +3,18 @@ import {FileController} from './controllers/file';
 import {MediaController} from './controllers/media';
 import {Storage} from './storage';
 
-let settings = {
-    skipTime: 1.5
-};
-
-let fileController = FileController({
+let [fileController, scribe] = FileController({
     element: document.querySelector('.transcript-container')
 });
 let mediaController = MediaController({
     element: document.querySelector('.media-container')
+});
+
+fileController.on('insertTimestamp',function(){
+    // scribe.el.focus();
+    console.log(mediaController.get('time'))
+    scribe.commands.insertTimestamp.execute( mediaController.get('time') );
+    return false;
 });
 
 // let storage = localforage.createInstance({
