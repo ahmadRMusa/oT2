@@ -1,5 +1,7 @@
 let Ractive = require('ractive');
 Ractive.DEBUG = false;
+import Mousetrap from 'mousetrap';
+
 let template = require('raw!../templates/media.html');
 import {Player} from '../player';
 
@@ -29,6 +31,11 @@ function createMediaController(opts){
         } else {
             player.pause();
         }
+    });
+    
+    Mousetrap.bind('esc', ()=> {
+        controller.fire('playPause');
+        return false;
     });
 
     return controller;
