@@ -1,4 +1,5 @@
 var path = require('path');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
   entry: {
     app: ['./src/index.js'] // This is the main file that gets loaded first; the "bootstrap", if you will.
@@ -25,7 +26,17 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
+      },
+      // Extract css files
+      {
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract(['css','sass'])
+          
       }
     ]
-  }
+  },
+  // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
+  plugins: [
+      new ExtractTextPlugin("style.css")
+  ]
 };

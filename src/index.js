@@ -1,3 +1,6 @@
+// CSS is actually compiled as a separate file
+require("./css/index.scss");
+
 let localforage = require('localforage');
 import {FileController} from './controllers/file';
 import {MediaController} from './controllers/media';
