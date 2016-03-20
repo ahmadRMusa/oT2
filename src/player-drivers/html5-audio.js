@@ -19,7 +19,11 @@ HTML5_AUDIO.prototype.setTime = function(time){
 HTML5_AUDIO.prototype.getStatus = function(){
     return this.status;
 }
-
-
+HTML5_AUDIO.prototype.getLength = function(){
+    return this.element.duration;
+}
+HTML5_AUDIO.prototype.isReady = function(){
+    return ((!isNaN(this.element.duration)) && (this.element.readyState === 4));
+}
 
 export {HTML5_AUDIO as HTML5_AUDIO};

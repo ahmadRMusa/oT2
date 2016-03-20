@@ -45,6 +45,7 @@ Takes the following arguments:
 
 - `driver`: A valid Player driver (see below)
 - `source`: Source file URL
+- `onReady`: Callback function called when player is ready for playback
 
 Returns an object of playback controls:
 
@@ -53,6 +54,9 @@ Returns an object of playback controls:
 - `getTime`: returns time in seconds
 - `setTime`: seeks to time in seconds
 - `skip`: `'forwards'` or `'backwards'`
+- `getLength`: returns time in seconds
+- `getStatus`: 'loading', 'playing' or 'paused'
+
 
 #### Player drivers
 
@@ -62,6 +66,9 @@ Player drivers should be objects initialise with a single `source` argument. The
 - `pause`
 - `getTime`
 - `setTime`: argument is time in seconds
+- `isReady`: true if source is loaded and ready for playback
+- `getLength`: time in seconds
+- `getStatus`: 'paused' or 'playing'
 
 Available player drivers:
 

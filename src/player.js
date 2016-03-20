@@ -5,12 +5,17 @@ import {HTML5_AUDIO} from './player-drivers/html5-audio';
 options:
 - driver
 - source
+- onReady
 
-methods:
+methods & properties:
 - play
 - pause
 - getTime
 - setTime (takes time in seconds)
+- skip (forwards or backwards)
+- getLength
+- getStatus
+
 
 */
 let Player = function( opts ){
@@ -37,7 +42,7 @@ let Player = function( opts ){
         driver.pause();
     }
     self.getTime = ()=>{
-        return driver.getTime();
+        return driver.isReady() ? driver.getTime() : 0;
     }
     self.setTime = (time)=>{
         driver.setTime(time);
@@ -52,8 +57,24 @@ let Player = function( opts ){
         }
     },
     self.getStatus = ()=>{
-        return driver.getStatus();
+        return driver.isReady() ? driver.getStatus() : 'loading';
     }
+    self.getLength = ()=>{
+        return driver.isReady() ? driver.getLength() : 0;
+    }
+    
+    if (opts.onReady) {
+        checkIfReady();
+    };
+
+    function checkIfReady(callback){
+        if (driver.isReady()) {
+            opts.onReady();
+        } else {
+            setTimeout(checkIfReady,10);
+        }
+    }
+
     return self;
 };
 

@@ -7,7 +7,8 @@ let mediaController = MediaController({
     element: document.body
 });
 
-describe('mediaController', () => {
+describe('mediaController', function(){
+    this.timeout(5000);
     describe('basic functions', () => {
         it('should return a Ractive instance', () => {
             expect(mediaController).to.be.instanceof(Ractive);
@@ -15,19 +16,32 @@ describe('mediaController', () => {
         it('should return time', () => {
             expect(mediaController.get('time')).to.equal(0);
         });        
-        it('should start playing', () => {
-            expect(mediaController.get('status')).to.equal('paused');
-            mediaController.fire('playPause');
-            expect(mediaController.get('status')).to.equal('playing');
-            mediaController.fire('playPause');
+        it('should start playing', (done) => {
+            setTimeout(()=>{
+                expect(mediaController.get('status')).to.equal('paused');
+                mediaController.fire('playPause');
+                expect(mediaController.get('status')).to.equal('playing');
+                mediaController.fire('playPause');
+                done();
+            },2000);              
         });        
-        it('should have formatted time', () => {
+        it('should have formatted time', (done) => {
+            expect( mediaController.get('status') ).to.equal('paused');
             mediaController.fire('skipForwards');
-            mediaController.fire('skipForwards');
-            mediaController.fire('skipForwards');
-            mediaController.fire('skipForwards');
-            expect(mediaController.get('time')).to.equal(6);
-            expect(mediaController.get('timeFormatted')).to.equal('0:06');
+            setTimeout(()=>{
+                mediaController.fire('skipForwards');
+                setTimeout(()=>{
+                    mediaController.fire('skipForwards');
+                    setTimeout(()=>{
+                        mediaController.fire('skipForwards');
+                        setTimeout(()=>{
+                            expect(mediaController.get('time')).to.equal(6);
+                            expect(mediaController.get('timeFormatted')).to.equal('0:06');
+                            done();
+                        },1);
+                    },1);
+                },1);
+            },1);
         });        
     });
 });
