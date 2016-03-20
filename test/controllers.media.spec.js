@@ -21,5 +21,13 @@ describe('mediaController', () => {
             expect(mediaController.get('status')).to.equal('playing');
             mediaController.fire('playPause');
         });        
+        it('should have formatted time', () => {
+            mediaController.fire('skipForwards');
+            mediaController.fire('skipForwards');
+            mediaController.fire('skipForwards');
+            mediaController.fire('skipForwards');
+            expect(mediaController.get('time')).to.equal(6);
+            expect(mediaController.get('timeFormatted')).to.equal('0:06');
+        });        
     });
 });

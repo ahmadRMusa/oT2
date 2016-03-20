@@ -14,13 +14,19 @@ function createMediaController(opts){
         status: 'paused',
         time: 0
     };
+    let computed = {
+        timeFormatted: function(){
+            return formatTime(this.get('time'));
+        }
+    };
     if (!opts.element) {
         throw ('Needs element');
     }
     let controller = new Ractive({
         el: opts.element,
         template: template,
-        data: model
+        data: model,
+        computed: computed
     });
     
     let player = Player({
@@ -29,11 +35,11 @@ function createMediaController(opts){
     });
     
     function updateStatus(){
-        controller.set('status',player.getStatus());
+        controller.set('status', player.getStatus() || 'paused');
         controller.set('time',player.getTime());
     }
     
-    // use `_time` as a temporary write-only property
+    // use temporary write-only properties
     // to prevent an endless loop
     controller.observe('_time',(time)=>{
         if (typeof time === 'number') {
@@ -41,7 +47,7 @@ function createMediaController(opts){
         }
     });
     
-    setInterval(updateStatus,100);
+    setInterval(updateStatus,5);
 
     controller.on('playPause',()=>{
         if (player.getStatus() !== 'playing') {
@@ -49,6 +55,15 @@ function createMediaController(opts){
         } else {
             player.pause();
         }
+        updateStatus();
+    });
+
+    controller.on('skipForwards',()=>{
+        player.skip('forwards');
+        updateStatus();
+    });
+    controller.on('skipBackwards',()=>{
+        player.skip('backwards');
         updateStatus();
     });
     
@@ -61,3 +76,10 @@ function createMediaController(opts){
 }
 
 export {createMediaController as MediaController};
+
+function formatTime(time){
+    let minutes = Math.floor(time / 60);
+    let seconds = ("0" + Math.floor( time - minutes * 60 ) ).slice(-2);
+    let formattedTime = minutes+":"+seconds;
+    return formattedTime;
+}
