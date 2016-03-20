@@ -36,6 +36,7 @@ let Player = function( opts ){
     
     let self = {}
     self.play = ()=>{
+        self.skip('backwards');
         driver.play();
     }
     self.pause = ()=>{

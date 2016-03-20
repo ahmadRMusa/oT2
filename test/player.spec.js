@@ -58,6 +58,12 @@ describe('audio player', function(){
                     it('should return correct duration', () => {
                         console.log( p.getLength() );
                     });
+                    it('should skip back when resuming', () => {
+                        p.skipTo( 20 );
+                        p.play();
+                        expect( p.getTime() ).to.equal( 18.5 );
+                        p.pause();
+                    });
                     done();
                 }
             });
