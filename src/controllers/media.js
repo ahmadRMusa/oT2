@@ -33,6 +33,14 @@ function createMediaController(opts){
         controller.set('time',player.getTime());
     }
     
+    // use `_time` as a temporary write-only property
+    // to prevent an endless loop
+    controller.observe('_time',(time)=>{
+        if (typeof time === 'number') {
+            player.setTime(time);
+        }
+    });
+    
     setInterval(updateStatus,100);
 
     controller.on('playPause',()=>{

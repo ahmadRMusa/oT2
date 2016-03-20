@@ -19,6 +19,7 @@ describe('mediaController', () => {
             expect(mediaController.get('status')).to.equal('paused');
             mediaController.fire('playPause');
             expect(mediaController.get('status')).to.equal('playing');
+            mediaController.fire('playPause');
         });        
     });
 });

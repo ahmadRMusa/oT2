@@ -29,7 +29,7 @@ function createTimestampMarkup(time) {
     let minutes = Math.floor(time / 60);
     let seconds = ("0" + Math.floor( time - minutes * 60 ) ).slice(-2);
     let formattedTime = minutes+":"+seconds;
-    let markup = '<span class="timestamp" data-timestamp="'+time+'" >' + formattedTime + '</span>&nbsp;';
+    let markup = '<span class="timestamp" data-timestamp="'+time+'" on-click="setFromTimestamp" >' + formattedTime + '</span>&nbsp;';
     return markup;
 }
 
