@@ -1,5 +1,42 @@
-<div class="debug-text">{{text}}</div>
-<div class="text-editor" contenteditable="true" value="{{text}}"></div>
-<div class="word-count">Word count: {{wordCount}} words</div>
+<div class="text-editor-container">
+    <div class="text-editor" contenteditable="true" value="{{text}}"></div>
+    
+    <!--
+        Note: .editor-side-panel "slides up" when it has .editing class
+    -->
+    <div class="editor-side-panel" style="left: {{editorSidePanelPosition}}px;">
+        <button class="sbutton bold">
+            <i class="fa fa-bold" id="icon-b"></i><span class="label">ctrl+b</span>
+        </button>
+        <button class="sbutton italic">
+            <i class="fa fa-italic" id="icon-i"></i><span class="label">ctrl+i</span>
+        </button>
+        <!--
+            Note: .time currently requires .active class to appear
+        -->
+        <button class="sbutton time" on-click="insertTimestamp">
+            <i class="fa fa-clock-o"></i><span class="label">ctrl+j</span>
+        </button>
+        <div class="wordcount">
+            {{wordCount}}  
+            <span class="wc-text" data-l10n-id="wordcount">words</span>        
+        </div>
+        <button class="sbutton backup">
+            <i class="fa fa-history"></i><span class="label" data-l10n-id="history-button">history</span>
+        </button>
+        <div class="import-file-wrapper">
+            <button class="sbutton import">
+                <i class="fa fa-sign-in" id="icon-imp"></i><span class="label" data-l10n-id="import-button">Import</span>
+            </button>
+            <input id="local-file-import" type="file" name="file" accept=".otr"  />
+        </div>
+        <button class="sbutton export">
+            <i class="fa fa-share-square-o" id="icon-exp"></i><span class="label" data-l10n-id="export">Export</span>
+            
+        </button>
+    </div>
+    
+</div>
 <button on-click="save">Save</button>
-<button on-click="insertTimestamp">Timestamp</button>
+
+<code style="font-family: monospace;" class="debug-text">{{text}}</code>

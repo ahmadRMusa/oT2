@@ -1,1 +1,57 @@
+@import "reset";
 
+$accent: rgb(52, 130, 177);
+$dark: hsl(0,0,15);
+
+@mixin button{
+    color: white;
+    text-align: center;
+    background-color:$accent;
+    border-radius: 5px;
+    cursor: pointer;
+    
+    &:hover, &.hover {
+        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, lighten($accent, 10%)), color-stop(1, lighten($accent, 5%)) );
+        background:-moz-linear-gradient( center top, lighten($accent, 10%) 5%, lighten($accent, 10%) 100% );
+    	background-color:#58AFDB;
+    }   
+    
+}
+
+@mixin noselect($val) {
+    -webkit-touch-callout: $val;
+    -webkit-user-select: $val;
+    -khtml-user-select: $val;
+    -moz-user-select: $val;
+    -ms-user-select: $val;
+    user-select: $val;
+}
+
+@mixin custom-file-selector {
+    position: relative;
+    overflow: hidden;
+    & > input[type="file"] {
+      font-size: 200px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+}
+
+
+
+body {
+    @include noselect(none);
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    height: 100%;
+}
+
+#extra-ui-text {
+    display: none;
+}
+
+@import "editor", "editor-side-panel", "font-awesome-fallback";
+
+//@import "input", "about", "help", "controls", "topbar", "languages", "speedbox", "audiojs", "textbox", "message-panel", "sidebar", "export", "backup", "font-awesome-fallback";

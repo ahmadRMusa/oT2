@@ -25,14 +25,23 @@ function createFileController(opts){
         wordCount: 0
     };
 
+    
+
     let controller = new Ractive({
         el: opts.element,
         template: template,
         data: model
     });
+    
+    controller.set('editorSidePanelPosition',
+        getPanelPosition(controller.find('.text-editor'))
+    );
 
     let scribe = new Scribe(controller.find('.text-editor'));
     scribe.use( timestampPlugin );
+    scribe.on('content-changed',()=>{
+        controller.set('wordCount', countWords(scribe.getTextContent()) );
+    });
     
     function insertTimestamp(){
         scribe.commands.insertTimestamp.execute( opts.getTime() );
@@ -80,6 +89,12 @@ function countWords(str){
         return trimmedStr.match(/[\S]+/gi).length;
     }
     return 0;
+}
+
+
+
+function getPanelPosition(editorEl){
+    return editorEl.offsetLeft + editorEl.offsetWidth;
 }
 
 
