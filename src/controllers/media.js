@@ -77,6 +77,12 @@ function createMediaController(opts){
         controller.fire('playPause');
         return false;
     });
+    Mousetrap.bind(['f1','mod+1'], ()=>{
+        controller.fire('skipBackwards');
+    });
+    Mousetrap.bind(['f2','mod+2'], ()=>{
+        controller.fire('skipForwards');
+    });
 
     return controller;
 }

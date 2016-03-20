@@ -1,14 +1,14 @@
 <div class="text-editor-container">
-    <div class="text-editor" contenteditable="true" value="{{text}}"></div>
+    <div class="text-editor mousetrap" contenteditable="true" value="{{text}}"></div>
     
     <!--
         Note: .editor-side-panel "slides up" when it has .editing class
     -->
     <div class="editor-side-panel" style="left: {{editorSidePanelPosition}}px;">
-        <button class="sbutton bold">
+        <button class="sbutton bold" on-click="bold">
             <i class="fa fa-bold" id="icon-b"></i><span class="label">ctrl+b</span>
         </button>
-        <button class="sbutton italic">
+        <button class="sbutton italic" on-click="italic">
             <i class="fa fa-italic" id="icon-i"></i><span class="label">ctrl+i</span>
         </button>
         <!--

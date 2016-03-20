@@ -3,6 +3,7 @@ Ractive.DEBUG = false;
 let template = require('raw!../templates/file.html');
 let Scribe = require('scribe-editor');
 import {timestampPlugin} from '../scribe-timestamp-plugin';
+let Mousetrap = require('mousetrap');
 
 /*
 opts:
@@ -47,21 +48,30 @@ function createFileController(opts){
         scribe.commands.insertTimestamp.execute( opts.getTime() );
         setTimeout(()=>addTimestampEvents,10);
     }
+    
     controller.on('insertTimestamp',()=>{
         insertTimestamp();
         return false;
     });
-    scribe.el.addEventListener('keydown', (event)=>{
-        if (event.keyCode === 74 && event.metaKey) {
-            event.preventDefault();
-            console.log(event);
-            scribe.el.focus();
-            insertTimestamp();
+    Mousetrap.bind('mod+j', ()=> {
+        scribe.el.focus();
+        insertTimestamp();
+        return false;
+    });
+    setInterval( addTimestampEvents, 100);
+
+    ['bold','italic','underline'].forEach((c)=>{
+        let command = c;
+        controller.on(command,()=>{
+            scribe.getCommand(command).execute();
             return false;
-        }
+        });
+        Mousetrap.bind('mod+'+c[0], ()=>{
+            controller.fire(c);
+            return false;
+        });
     });
     
-    setInterval( addTimestampEvents, 100);
         
     function setFromTimestamp(){
         opts.setTime( +this.dataset.timestamp );
