@@ -1,5 +1,8 @@
+# oTranscribe2
 
+This is an attempt to rebuild oTranscribe from the ground up. It's not quite ready to use yet, though.
 
+Read more [about oTranscribe2 and how you can get involved](https://github.com/oTranscribe/oT2/wiki/About-oTranscribe2).
 
 ## Building source files
 
