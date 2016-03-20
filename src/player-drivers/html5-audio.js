@@ -25,5 +25,11 @@ HTML5_AUDIO.prototype.getLength = function(){
 HTML5_AUDIO.prototype.isReady = function(){
     return ((!isNaN(this.element.duration)) && (this.element.readyState === 4));
 }
+HTML5_AUDIO.prototype.getSpeed = function(){
+    return this.element.playbackRate;
+}
+HTML5_AUDIO.prototype.setSpeed = function(speed){
+    return this.element.playbackRate = speed;
+}
 
 export {HTML5_AUDIO as HTML5_AUDIO};

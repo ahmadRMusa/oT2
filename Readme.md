@@ -56,6 +56,9 @@ Returns an object of playback controls:
 - `skip`: `'forwards'` or `'backwards'`
 - `getLength`: returns time in seconds
 - `getStatus`: 'loading', 'playing' or 'paused'
+- `getSpeed`: returns speed as number
+- `setSpeed`: changes speed (`1` is normal speed)
+- `speed`: `'up'` or `'down'`
 
 
 #### Player drivers
@@ -69,6 +72,8 @@ Player drivers should be objects initialise with a single `source` argument. The
 - `isReady`: true if source is loaded and ready for playback
 - `getLength`: time in seconds
 - `getStatus`: 'paused' or 'playing'
+- `getSpeed`: returns speed as number
+- `setSpeed`: changes speed (`1` is normal speed)
 
 Available player drivers:
 

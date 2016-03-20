@@ -74,4 +74,39 @@ describe('audio player', function(){
         
 
     });
+    describe('speed control', () => {
+        it('should run tests onReady',function(done){
+            this.timeout(5000);
+            let p = Player({
+                driver: Player.drivers.HTML5_AUDIO,
+                source: 'http://ejb.github.io/progressor.js/demos/echoplex.mp3',
+                onReady: ()=>{
+                    it('should return the speed', () => {
+                        expect( p.getSpeed() ).to.equal( 1 );
+                    });
+                    it('should set the speed', () => {
+                        p.setSpeed(2);
+                        expect( p.getSpeed() ).to.equal( 2 );
+                    });
+                    it('should speed down and up', () => {
+                        expect.throws(()=>{
+                            p.speed('xxx');
+                        })
+                        p.speed('down');
+                        expect( p.getSpeed() ).to.equal( 1.75 );
+                        p.speed('up');
+                        expect( p.getSpeed() ).to.equal( 2 );
+                        // below current minimum
+                        p.speed(0.25);
+                        expect( p.getSpeed() ).to.equal( 2 );
+                        p.speed(1.25);
+                        expect( p.getSpeed() ).to.equal( 1.25 );
+                    });
+                    done();
+                }
+            });
+        });
+    });
 });
+
+

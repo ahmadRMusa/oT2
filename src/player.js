@@ -15,6 +15,9 @@ methods & properties:
 - skip (forwards or backwards)
 - getLength
 - getStatus
+- getSpeed
+- setSpeed
+- speed
 
 
 */
@@ -33,6 +36,9 @@ let Player = function( opts ){
     let source = opts.source;
     let driver = new opts.driver(source);
     let skipTime = 1.5;
+    let speedIncrement = 0.25;
+    let minSpeed = 0.5;
+    let maxSpeed = 2;
     
     let self = {}
     self.play = ()=>{
@@ -62,6 +68,25 @@ let Player = function( opts ){
     }
     self.getLength = ()=>{
         return driver.isReady() ? driver.getLength() : 0;
+    }
+    self.getSpeed = ()=>{
+        return driver.getSpeed();
+    }
+    self.setSpeed = (speed)=>{
+        if ((speed >= minSpeed) && (speed <= maxSpeed)) {
+            driver.setSpeed(speed);
+        }
+    }
+    self.speed = (direction)=>{
+        if (typeof direction === 'number') {
+            driver.setSpeed( direction );
+        } else if (direction === 'up') {
+            self.setSpeed( self.getSpeed() + speedIncrement );
+        } else if (direction === 'down') {
+            self.setSpeed( self.getSpeed() - speedIncrement );
+        } else {
+            throw ('Speed requires a direction: up or down')
+        }
     }
     
     if (opts.onReady) {

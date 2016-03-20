@@ -13,7 +13,8 @@ function createMediaController(opts){
     let model = {
         status: 'paused',
         loading: false,
-        time: 0
+        time: 0,
+        speed: 1
     };
     let computed = {
         timeFormatted: function(){
@@ -43,6 +44,7 @@ function createMediaController(opts){
         controller.set('status', player.getStatus() || 'paused');
         controller.set('time',player.getTime());
         controller.set('length',player.getLength());
+        controller.set('speed',player.getSpeed());
     }
     
     // use temporary write-only properties
@@ -72,6 +74,14 @@ function createMediaController(opts){
         player.skip('backwards');
         updateStatus();
     });
+    controller.on('speedUp',()=>{
+        player.speed('up');
+        updateStatus();
+    });
+    controller.on('speedDown',()=>{
+        player.speed('down');
+        updateStatus();
+    });
     
     Mousetrap.bind('esc', ()=> {
         controller.fire('playPause');
@@ -82,6 +92,12 @@ function createMediaController(opts){
     });
     Mousetrap.bind(['f2','mod+2'], ()=>{
         controller.fire('skipForwards');
+    });
+    Mousetrap.bind(['f3','mod+3'], ()=>{
+        controller.fire('speedDown');
+    });
+    Mousetrap.bind(['f4','mod+4'], ()=>{
+        controller.fire('speedUp');
     });
 
     return controller;
