@@ -14,7 +14,8 @@ function createMediaController(opts){
         status: 'paused',
         loading: false,
         time: 0,
-        speed: 1
+        speed: 1,
+        speedSliderClass: ''
     };
     let computed = {
         timeFormatted: function(){
@@ -47,7 +48,9 @@ function createMediaController(opts){
         controller.set('status', player.getStatus() || 'paused');
         controller.set('time',player.getTime());
         controller.set('length',player.getLength());
-        controller.set('speed',player.getSpeed());
+        if (!mouseButtonDown) {
+            controller.set('speed',player.getSpeed());
+        }
     }
     
     // use temporary write-only properties
@@ -86,6 +89,28 @@ function createMediaController(opts){
         updateStatus();
     });
     
+    var mouseButtonDown = false;
+    document.addEventListener('mousedown', (ev)=>{
+        mouseButtonDown = true;
+    }, false)
+    document.addEventListener('mouseup', (ev)=>{
+        mouseButtonDown = false;
+    }, false)
+    
+    controller.on('speedSlider',(ev)=>{
+        player.setSpeed( +ev.node.value );
+    });
+    controller.on('speedSliderFixed',(ev)=>{
+        if(ev.original.target.className.match('speed-box')) {
+            return;
+        }
+        if (controller.get('speedSliderClass')==='fixed') {
+            controller.set('speedSliderClass','');
+        } else {
+            controller.set('speedSliderClass','fixed');
+        }
+    });
+    
     setUpProgressBar(controller,player);
         
     Mousetrap.bind('esc', ()=> {
@@ -119,6 +144,7 @@ function formatTime(time){
 
 function setUpProgressBar(controller,player){
     var progressBar = controller.find('.progress-bar-inner');
+    var mouseButtonDown = false;
     controller.on('progressBarMouseDown',(ev)=>{
         mouseButtonDown = true;
         setProgressFromProgressBar(ev);
@@ -129,7 +155,6 @@ function setUpProgressBar(controller,player){
     document.addEventListener('mouseup', (ev)=>{
         mouseButtonDown = false;
     }, false)
-    var mouseButtonDown = false;
     function setProgressFromProgressBar(ev){
         if (!mouseButtonDown) { return; }
         if (!ev.x) {
