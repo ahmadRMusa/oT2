@@ -22,6 +22,9 @@ function createMediaController(opts){
         },
         lengthFormatted: function(){
             return formatTime(this.get('length'));
+        },
+        progressPercent: function(){
+            return (this.get('time') / this.get('length')) * 100;
         }
     };
     if (!opts.element) {
@@ -83,6 +86,8 @@ function createMediaController(opts){
         updateStatus();
     });
     
+    setUpProgressBar(controller,player);
+        
     Mousetrap.bind('esc', ()=> {
         controller.fire('playPause');
         return false;
@@ -110,4 +115,34 @@ function formatTime(time){
     let seconds = ("0" + Math.floor( time - minutes * 60 ) ).slice(-2);
     let formattedTime = minutes+":"+seconds;
     return formattedTime;
+}
+
+function setUpProgressBar(controller,player){
+    var progressBar = controller.find('.progress-bar-inner');
+    controller.on('progressBarMouseDown',(ev)=>{
+        mouseButtonDown = true;
+        setProgressFromProgressBar(ev);
+    });
+    document.addEventListener('mousemove', (ev)=>{
+        setProgressFromProgressBar(ev);
+    }, false)
+    document.addEventListener('mouseup', (ev)=>{
+        mouseButtonDown = false;
+    }, false)
+    var mouseButtonDown = false;
+    function setProgressFromProgressBar(ev){
+        if (!mouseButtonDown) { return; }
+        if (!ev.x) {
+            ev.x = ev.original.x;
+        }
+        var progress = (ev.x - progressBar.offsetLeft)/progressBar.offsetWidth;
+        if (progress > 1) {
+            progress = 1;
+        } else if (progress < 0) {
+            progress = 0;
+        }
+        var newTime = player.getLength() * progress;
+        player.setTime( newTime );
+    }
+    
 }
