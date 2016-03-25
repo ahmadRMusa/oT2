@@ -18,7 +18,9 @@ let [fileController, scribe] = FileController({
 let pickerController = PickerController({
     element: fileController.find('.picker-container')
 });
-
+pickerController.observe('file',(file)=>{
+	mediaController.set('file',file);
+});
 // let storage = localforage.createInstance({
 //     name: 'oTranscribe'
 // });

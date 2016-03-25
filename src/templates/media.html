@@ -1,27 +1,29 @@
 <div class="topbar">
     <div class="title active">oTranscribe</div>
-    <div class="controls">
-        <div class="button play-pause {{status}}" on-mousedown="playPause">
-            <i class="fa fa-play"></i><i class="fa fa-pause"></i>
-        </div>
-        <div class="button skip-backwards" on-mousedown="skipBackwards"><i class="fa fa-backward"></i></div>
-        <div class="button skip-forwards" on-mousedown="skipForwards"><i class="fa fa-forward"></i></div>
-        <div class="button speed {{speedSliderClass}}" on-mousedown="speedSliderFixed"><i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
-        		<div class="speed-box">
-                    F3 <i class="slider-origin"></i><input class="speed-box-slider" type ="range" min ="0.5" max="2.0" step ="0.25" value="{{speed}}" on-change="speedSlider"/> F4
-        		</div>
-            </div>
-        <div class="progress-bar">
-            <div class="progress-bar-inner" on-mousedown="progressBarMouseDown">
-                <div class="progress-bar-progress" style="width: {{progressPercent}}%;"></div>
-                <div class="media-title">FILE NAME</div>
-            </div>
-        </div>
-        <div class="player-time">
-            {{timeFormatted}}/{{lengthFormatted}}
-        </div>
-        <div class="button reset"><i class="fa fa-refresh"></i></div>
-    </div>
+	{{#if file.url}}
+	    <div class="controls">
+	        <div class="button play-pause {{status}}" on-mousedown="playPause">
+	            <i class="fa fa-play"></i><i class="fa fa-pause"></i>
+	        </div>
+	        <div class="button skip-backwards" on-mousedown="skipBackwards"><i class="fa fa-backward"></i></div>
+	        <div class="button skip-forwards" on-mousedown="skipForwards"><i class="fa fa-forward"></i></div>
+	        <div class="button speed {{speedSliderClass}}" on-mousedown="speedSliderFixed"><i class="fa fa-dashboard"></i> <span data-l10n-id="speed">speed</span>
+	        		<div class="speed-box">
+	                    F3 <i class="slider-origin"></i><input class="speed-box-slider" type ="range" min ="0.5" max="2.0" step ="0.25" value="{{speed}}" on-change="speedSlider"/> F4
+	        		</div>
+	            </div>
+	        <div class="progress-bar">
+	            <div class="progress-bar-inner" on-mousedown="progressBarMouseDown">
+	                <div class="progress-bar-progress" style="width: {{progressPercent}}%;"></div>
+	                <div class="media-title">{{file.title}}</div>
+	            </div>
+	        </div>
+	        <div class="player-time">
+	            {{timeFormatted}}/{{lengthFormatted}}
+	        </div>
+	        <div class="button reset"><i class="fa fa-refresh"></i></div>
+	    </div>
+	{{/if}}
     <a href="help" target="_blank" data-l10n-id="help" class="help-title">Help</a>
     <div target="_blank" class="language-title">
         <i class="fa fa-globe"></i> <span id="curr-lang">Language</span>

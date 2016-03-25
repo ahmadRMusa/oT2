@@ -10,13 +10,15 @@ opts:
 - element
 */
 function createMediaController(opts){
-    let model = {
+    const modelDefaults = {
         status: 'paused',
         loading: false,
         time: 0,
         speed: 1,
-        speedSliderClass: ''
+        speedSliderClass: '',
+		file: {}
     };
+	let model = modelDefaults;
     let computed = {
         timeFormatted: function(){
             return formatTime(this.get('time'));
@@ -37,12 +39,25 @@ function createMediaController(opts){
         data: model,
         computed: computed
     });
-        
-    let player = Player({
-        driver: Player.drivers.HTML5_AUDIO,
-        source: 'http://ejb.github.io/progressor.js/demos/echoplex.mp3',
-        onReady: updateStatus
-    });
+    
+	controller.observe('file',(file)=>{
+		if (!file.url) { return; };
+	    let player = Player({
+	        driver: Player.drivers.HTML5_AUDIO,
+	        source: file.url
+	    });
+		setTimeout(()=>{
+			integratePlayer(controller,player);
+		},2);
+	});
+
+    return controller;
+}
+
+export {createMediaController as MediaController};
+
+function integratePlayer(controller,player){
+
     
     function updateStatus(){
         controller.set('status', player.getStatus() || 'paused');
@@ -52,7 +67,7 @@ function createMediaController(opts){
             controller.set('speed',player.getSpeed());
         }
     }
-    
+
     // use temporary write-only properties
     // to prevent an endless loop
     controller.observe('_time',(time)=>{
@@ -110,8 +125,6 @@ function createMediaController(opts){
             controller.set('speedSliderClass','fixed');
         }
     });
-    
-    setUpProgressBar(controller,player);
         
     Mousetrap.bind('esc', ()=> {
         controller.fire('playPause');
@@ -129,11 +142,9 @@ function createMediaController(opts){
     Mousetrap.bind(['f4','mod+4'], ()=>{
         controller.fire('speedUp');
     });
-
-    return controller;
+	
+	setUpProgressBar(controller,player);
 }
-
-export {createMediaController as MediaController};
 
 function formatTime(time){
     let minutes = Math.floor(time / 60);
