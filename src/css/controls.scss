@@ -1,6 +1,8 @@
 
 .controls {
+    display: -webkit-flex;
     display: flex;
+    -webkit-flex: 1;
     flex: 1;
     
     .button {
@@ -103,6 +105,7 @@ video#oTplayerEl, iframe#oTplayerEl {
     vertical-align: middle;
     overflow: hidden;
     flex: 1;
+    -webkit-flex: 1;
 }
 
 .progress-bar-inner {
