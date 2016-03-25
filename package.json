@@ -33,8 +33,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --content-base src/",
-    "test": "./node_modules/karma/bin/karma start",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --content-base src/",
+    "test": "node ./node_modules/karma/bin/karma start",
     "build": "rm -rf ./dist && mkdir ./dist && cp src/index.html ./dist/index.html && ./node_modules/webpack/bin/webpack.js --watch  --content-base src/"
   },
   "author": "",
