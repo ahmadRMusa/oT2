@@ -1,0 +1,31 @@
+<div class="picker-wrapper">
+	<div class="input {{active}} {{#if pickingExternal}}external-input-active{{/if}}">
+	    <div class="file-input-wrapper">
+	      <button class="btn-file-input">
+			  <i class="fa fa-arrow-circle-o-up"></i><span data-l10n-id="choose-file">Choose audio (or video) file</span>
+		  </button>
+	      <input on-change="pickFile" type="file" name="file" accept="audio/*, video/*"  />
+	    </div>
+	    <div class="alt-input-button" data-l10n-id="choose-youtube" on-click="openExternalPicker">or YouTube video</div>
+ 
+	<div class="lastfile">Name of last file...</div>
+
+	<div class="formats {{#if typeWarning}}warning{{/if}}">
+		{{#if typeWarning}}
+			Your browser does not support {{typeWarning}} files. Switch to a different browser or <a href="http://media.io">convert your file</a> to another format.
+		{{else}}
+			Your browser supports {{audioFormats}} audio files and {{videoFormats}} video files. You may need to <a href="http://media.io">convert your file</a>.
+		{{/if}}
+	</div><!-- .formats -->
+
+    {{#if pickingExternal}}
+    <div class="ext-input-field">
+        <div class="close-ext-input"><i class="fa fa-times"></i></div>
+        <label data-l10n-id="youtube-instrux">Enter YouTube video URL:
+            <input type="text">
+        </label>
+        <div class="ext-input-warning"></div>
+    </div>
+    {{/if}}
+ 
+</div>

@@ -3,6 +3,7 @@ require("./css/index.scss");
 
 let localforage = require('localforage');
 import {FileController} from './controllers/file';
+import {PickerController} from './controllers/picker';
 import {MediaController} from './controllers/media';
 import {Storage} from './storage';
 
@@ -13,6 +14,9 @@ let [fileController, scribe] = FileController({
     element: document.querySelector('.transcript-container'),
     setTime: (time)=> mediaController.set('_time',time),
     getTime: ()=> mediaController.get('time')
+});
+let pickerController = PickerController({
+    element: fileController.find('.picker-container')
 });
 
 // let storage = localforage.createInstance({
