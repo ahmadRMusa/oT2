@@ -1,6 +1,10 @@
 import {Player} from './../src/player';
 let expect = require('chai').expect;
 
+let data = require('raw!./mp3.txt');
+let prefix = 'data:audio/mp3;base64,';
+let mp3 = prefix+data;
+
 describe('audio player', function(){
     describe('init', function(){
         it('should throw an error if initialised without required options', () => {
@@ -20,20 +24,30 @@ describe('audio player', function(){
         });
         it('should initialise correctly', function(done){
             this.timeout(5000);
-            Player({
+            let p = Player({
                 driver: Player.drivers.HTML5_AUDIO,
-                source: 'http://ejb.github.io/progressor.js/demos/echoplex.mp3',
+                source: mp3,
                 onReady: function(){ done(); }
             });
+			p.destroy();
             done();
         });
+        it('should destroy self', () => {
+            let p = Player({
+                driver: Player.drivers.HTML5_AUDIO,
+                source: mp3
+            });
+			p.destroy();
+            expect( document.querySelectorAll('audio').length ).to.equal( 0 );
+        });
+		
     });
     describe('playback control', () => {
         it('should run tests onReady',function(done){
             this.timeout(5000);
             var p = Player({
                 driver: Player.drivers.HTML5_AUDIO,
-                source: 'http://ejb.github.io/progressor.js/demos/echoplex.mp3',
+                source: mp3,
                 onReady: ()=>{
                     it('should return the time', () => {
                         expect( p.getTime() ).to.equal( 0 );
@@ -64,6 +78,11 @@ describe('audio player', function(){
                         expect( p.getTime() ).to.equal( 18.5 );
                         p.pause();
                     });
+		            it('should destroy self', () => {
+						p.destroy();
+		                expect( p.getStatus() ).to.equal( 'destroyed' );
+		                expect( document.querySelectorAll('audio').length ).to.equal( 0 );
+		            });
                     done();
                 }
             });
@@ -79,7 +98,7 @@ describe('audio player', function(){
             this.timeout(5000);
             let p = Player({
                 driver: Player.drivers.HTML5_AUDIO,
-                source: 'http://ejb.github.io/progressor.js/demos/echoplex.mp3',
+                source: mp3,
                 onReady: ()=>{
                     it('should return the speed', () => {
                         expect( p.getSpeed() ).to.equal( 1 );
@@ -102,6 +121,7 @@ describe('audio player', function(){
                         p.speed(1.25);
                         expect( p.getSpeed() ).to.equal( 1.25 );
                     });
+					p.destroy();
                     done();
                 }
             });

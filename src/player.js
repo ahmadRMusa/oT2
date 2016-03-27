@@ -64,7 +64,7 @@ let Player = function( opts ){
         }
     },
     self.getStatus = ()=>{
-        return driver.isReady() ? driver.getStatus() : 'loading';
+        return driver.isReady() ? driver.getStatus() : 'inactive';
     }
     self.getLength = ()=>{
         return driver.isReady() ? driver.getLength() : 0;
@@ -88,7 +88,11 @@ let Player = function( opts ){
             throw ('Speed requires a direction: up or down')
         }
     }
+	self.destroy = ()=>{
+		driver.destroy();
+	}
     
+	let attempts = 0;
     if (opts.onReady) {
         checkIfReady();
     };
@@ -96,8 +100,11 @@ let Player = function( opts ){
     function checkIfReady(callback){
         if (driver.isReady()) {
             opts.onReady();
-        } else {
+        } else if (attempts < 20000) {
             setTimeout(checkIfReady,10);
+			attempts++;
+        } else {
+        	throw('Error with player driver');
         }
     }
 

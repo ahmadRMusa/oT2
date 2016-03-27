@@ -18,7 +18,7 @@ function createPickerController(opts){
 		url: '',
 		file: {}
     };
-    let model = defaultModel;
+    let model = clone(defaultModel);
     let computed = {};
     if (!opts.element) {
         throw ('Needs element');
@@ -33,7 +33,6 @@ function createPickerController(opts){
 	controller.on('pickFile',(ev)=>{
 	    let file = ev.node.files[0];
 		let [type,format] = file.type.split('/');
-		console.log(type,format)
 	    if ( formats[type].indexOf(format) > -1 ){
 			controller.set('typeWarning','');
 			controller.set('active','');
@@ -50,7 +49,7 @@ function createPickerController(opts){
 	});
 	
 	controller.on('resetPicker',()=>{
-		controller.set(defaultModel);
+		controller.set(clone(defaultModel));
 	});
 
 	controller.on('openExternalPicker',()=>{
@@ -93,4 +92,6 @@ function createObjectURL(file){
     }
 }
 
-
+function clone(obj){
+	return JSON.parse(JSON.stringify(obj));
+}

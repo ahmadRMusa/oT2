@@ -62,6 +62,7 @@ Returns an object of playback controls:
 - `getSpeed`: returns speed as number
 - `setSpeed`: changes speed (`1` is normal speed)
 - `speed`: `'up'` or `'down'`
+- `destroy`: player becomes inactive and removes all markup from page
 
 
 #### Player drivers
@@ -77,6 +78,7 @@ Player drivers should be objects initialise with a single `source` argument. The
 - `getStatus`: 'paused' or 'playing'
 - `getSpeed`: returns speed as number
 - `setSpeed`: changes speed (`1` is normal speed)
+- `destroy`: driver becomes inactive and removes all markup from page
 
 Available player drivers:
 

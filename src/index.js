@@ -21,6 +21,9 @@ let pickerController = PickerController({
 pickerController.observe('file',(file)=>{
 	mediaController.set('file',file);
 });
+mediaController.on('resetMedia',()=>{
+	pickerController.fire('resetPicker');
+});
 // let storage = localforage.createInstance({
 //     name: 'oTranscribe'
 // });

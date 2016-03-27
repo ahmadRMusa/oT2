@@ -40,16 +40,31 @@ function createMediaController(opts){
         computed: computed
     });
     
+	let player = false;
+	let disintegratePlayer = false;
 	controller.observe('file',(file)=>{
-		if (!file.url) { return; };
-	    let player = Player({
-	        driver: Player.drivers.HTML5_AUDIO,
-	        source: file.url
-	    });
-		setTimeout(()=>{
-			integratePlayer(controller,player);
-		},2);
+		console.log('media:file',file)		
+		if (file.url) {
+		    player = new Player({
+		        driver: Player.drivers.HTML5_AUDIO,
+		        source: file.url
+		    });
+			setTimeout(()=>{
+				disintegratePlayer = integratePlayer(controller,player);
+			},10);			
+		};
 	});
+	
+	controller.on('resetMedia',()=>{
+		if (disintegratePlayer) {
+			disintegratePlayer();
+		}
+		if (player && (player.destroy)) {
+			player.pause();
+			player.destroy();
+		}
+	});
+	
 
     return controller;
 }
@@ -60,6 +75,9 @@ function integratePlayer(controller,player){
 
     
     function updateStatus(){
+		if (!player || !player.getStatus) {
+			return;
+		}
         controller.set('status', player.getStatus() || 'paused');
         controller.set('time',player.getTime());
         controller.set('length',player.getLength());
@@ -76,7 +94,7 @@ function integratePlayer(controller,player){
         }
     });
     
-    setInterval(updateStatus,5);
+    let update = setInterval(updateStatus,5);
 
     controller.on('playPause',()=>{
         if (player.getStatus() !== 'playing') {
@@ -143,7 +161,19 @@ function integratePlayer(controller,player){
         controller.fire('speedUp');
     });
 	
-	setUpProgressBar(controller,player);
+	let removeProgressBar = setUpProgressBar(controller,player);
+	
+	return function cancel(){
+		clearInterval( update );
+		controller.off('playPause');
+		controller.off('skipForwards');
+		controller.off('skipBackwards');
+		controller.off('speedUp');
+		controller.off('speedDown');
+		controller.off('speedSliderFixed');
+		controller.off('speedSlider');
+		removeProgressBar();
+	}
 }
 
 function formatTime(time){
@@ -180,5 +210,9 @@ function setUpProgressBar(controller,player){
         var newTime = player.getLength() * progress;
         player.setTime( newTime );
     }
+	
+	return function removeProgressBar(){
+		controller.off('progressBarMouseDown');
+	}
     
 }
