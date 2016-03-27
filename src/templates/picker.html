@@ -12,7 +12,9 @@
 	    </div>
 	    <div class="alt-input-button" data-l10n-id="choose-youtube" on-click="openExternalPicker">or YouTube video</div>
  
-	<div class="lastfile">Name of last file...</div>
+	{{#if lastMedia}}
+		<div class="lastfile">Last file: {{lastMedia}}</div>
+	{{/if}}
 
 	<div class="formats {{#if typeWarning}}warning{{/if}}">
 		{{#if typeWarning}}

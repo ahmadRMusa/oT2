@@ -17,7 +17,8 @@ function createPickerController(opts){
 		pickingExternal: false,
 		url: '',
 		file: {},
-		dragging: false
+		dragging: false,
+		lastMedia: ''
     };
     let model = clone(defaultModel);
     let computed = {};
@@ -50,7 +51,9 @@ function createPickerController(opts){
 	});
 	
 	controller.on('resetPicker',()=>{
+		let lastMedia = controller.get('lastMedia');
 		controller.set(clone(defaultModel));
+		controller.set('lastMedia',lastMedia);
 	});
 
 	controller.on('openExternalPicker',()=>{

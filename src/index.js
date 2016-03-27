@@ -21,6 +21,12 @@ let pickerController = PickerController({
 pickerController.observe('file',(file)=>{
 	mediaController.set('file',file);
 	fileController.set('fileLoaded',!!file.url);
+	console.log('file.title',file.title)
+	if (file.title) {
+		fileController.set('lastMedia',file.title);
+		pickerController.set('lastMedia',file.title);
+	}
+	console.log(fileController.get(),pickerController.get())
 });
 mediaController.on('resetMedia',()=>{
 	pickerController.fire('resetPicker');
@@ -42,6 +48,7 @@ storage.list().then(function(list){
         storage.load(list[0].id)
         .then(function(file){
             fileController.set(file);
+			pickerController.set('lastMedia',file.lastMedia);
         }, storageError);
     } else {
         fileController.set({
@@ -51,7 +58,7 @@ storage.list().then(function(list){
     }
     
     fileController.on('save',function(){
-      let current = fileController.get();
+        let current = fileController.get();
         storage.save(current).then(function(){
             console.log('Saved files');
         }, storageError);
