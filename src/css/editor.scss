@@ -52,6 +52,6 @@
 .text-editor-container {
     overflow-y: scroll;
     position: relative;
-    height: 500px; 
+    height: calc(100% - 36px);
     background: #EEE;
 }
