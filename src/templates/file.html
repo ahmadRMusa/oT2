@@ -7,7 +7,7 @@
     <!--
         Note: .editor-side-panel "slides up" when it has .editing class
     -->
-    <div class="editor-side-panel" style="left: {{editorSidePanelPosition}}px;">
+    <div class="editor-side-panel {{#if fileLoaded}}editing{{/if}}" style="left: {{editorSidePanelPosition}}px;">
         <button class="sbutton bold" on-click="bold">
             <i class="fa fa-bold" id="icon-b"></i><span class="label">ctrl+b</span>
         </button>

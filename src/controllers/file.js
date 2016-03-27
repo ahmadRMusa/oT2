@@ -23,7 +23,8 @@ function createFileController(opts){
             // TODO: filter out non-whitelisted HTML
             return this.get('text');
         },
-        wordCount: 0
+        wordCount: 0,
+		fileLoaded: false
     };
 
     
