@@ -35,9 +35,6 @@ function createFileController(opts){
         data: model
     });
     
-    controller.set('editorSidePanelPosition',
-        getPanelPosition(controller.find('.text-editor'))
-    );
 
     let scribe = new Scribe(controller.find('.text-editor'));
     scribe.use( timestampPlugin );
@@ -78,7 +75,6 @@ function createFileController(opts){
 		controller.fire('save');
 	},1*1000);
     
-        
     function setFromTimestamp(){
         opts.setTime( +this.dataset.timestamp );
     };
@@ -106,11 +102,4 @@ function countWords(str){
     }
     return 0;
 }
-
-
-
-function getPanelPosition(editorEl){
-    return editorEl.offsetLeft + editorEl.offsetWidth;
-}
-
 
