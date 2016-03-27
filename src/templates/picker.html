@@ -1,6 +1,10 @@
 <div class="picker-wrapper">
 	<div class="input {{active}} {{#if pickingExternal}}external-input-active{{/if}}">
-	    <div class="file-input-wrapper">
+	    <div
+			class="file-input-wrapper {{#if dragging}}hover{{/if}}"
+			on-dragover="dragover"
+			on-dragleave="dragleave"
+		>
 	      <button class="btn-file-input">
 			  <i class="fa fa-arrow-circle-o-up"></i><span data-l10n-id="choose-file">Choose audio (or video) file</span>
 		  </button>

@@ -16,7 +16,8 @@ function createPickerController(opts){
 		active: 'active',
 		pickingExternal: false,
 		url: '',
-		file: {}
+		file: {},
+		dragging: false
     };
     let model = clone(defaultModel);
     let computed = {};
@@ -54,6 +55,14 @@ function createPickerController(opts){
 
 	controller.on('openExternalPicker',()=>{
 		controller.set('pickingExternal',true);
+	});
+
+	// drag-n-drop UI cue
+	controller.on('dragover',()=>{
+		controller.set('dragging',true);
+	});
+	controller.on('dragleave',()=>{
+		controller.set('dragging',false);
 	});
 
     return controller;
