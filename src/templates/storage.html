@@ -1,0 +1,15 @@
+<div style="position: fixed; top: 36px; z-index: 400; background: white; width: 100%;">
+    
+    
+    <div class="new-transript">New transcript</div>
+    <ul>
+        {{#each files}}
+        <li>
+            <p>{{id}} -- {{dateFormatted}}</p>
+            <p>{{#if lastMedia}} Last file: {{lastMedia}}{{/if}}</p>
+            <p>{{text}}</p>
+        </li>
+        {{/each}}
+    </ul>
+    
+</div>

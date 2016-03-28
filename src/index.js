@@ -5,6 +5,7 @@ let localforage = require('localforage');
 import {FileController} from './controllers/file';
 import {PickerController} from './controllers/picker';
 import {MediaController} from './controllers/media';
+import {StorageController} from './controllers/storage';
 import {Storage} from './storage';
 
 let mediaController = MediaController({
@@ -17,6 +18,9 @@ let [fileController, scribe] = FileController({
 });
 let pickerController = PickerController({
     element: fileController.find('.picker-container')
+});
+let storageController = StorageController({
+    element: document.querySelector('.storage-container')
 });
 pickerController.observe('file',(file)=>{
 	mediaController.set('file',file);
