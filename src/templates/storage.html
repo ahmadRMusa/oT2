@@ -4,7 +4,7 @@
     <div class="new-transript">New transcript</div>
     <ul>
         {{#each files}}
-        <li>
+        <li on-click="selectFile" data-id="{{id}}" class="file-item {{#active}}active{{/}}">
             <p>{{id}} -- {{dateFormatted}}</p>
             <p>{{#if lastMedia}} Last file: {{lastMedia}}{{/if}}</p>
             <p>{{text}}</p>
