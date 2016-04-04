@@ -21,94 +21,107 @@ methods & properties:
 
 
 */
-let Player = function( opts ){
-    
-    if (!opts) {
-        throw('Player needs options');
+class Player{
+
+	constructor(opts){
+		if (!opts) {
+	        throw('Player needs options');
+	    }
+	    if (!opts.driver) {
+	        throw('Driver not specified');
+	    }
+	    if (!opts.source) {
+	        throw('Source not specified');
+	    }
+
+	    let source = opts.source;
+	    this.driver = new opts.driver(source);
+	    this.skipTime = 1.5;
+	    this.speedIncrement = 0.25;
+	    this.minSpeed = 0.5;
+	    this.maxSpeed = 2;
+
+	    let attempts = 0;
+		let driver = this.driver;
+	    if (opts.onReady) {
+	        checkIfReady();
+	    };
+
+	    function checkIfReady(callback){
+	        if (driver.isReady()) {
+	            opts.onReady();
+	        } else if (attempts < 20000) {
+	            setTimeout(checkIfReady,10);
+				attempts++;
+	        } else {
+	        	throw('Error with player driver');
+	        }
+	    }
+
+	}
+
+    play(){
+    	this.skip('backwards');
+        this.driver.play();
     }
-    if (!opts.driver) {
-        throw('Driver not specified');
+
+    pause(){
+    	this.driver.pause();
     }
-    if (!opts.source) {
-        throw('Source not specified');
+
+    getTime(){
+    	return this.driver.isReady() ? this.driver.getTime() : 0;
     }
-    
-    let source = opts.source;
-    let driver = new opts.driver(source);
-    let skipTime = 1.5;
-    let speedIncrement = 0.25;
-    let minSpeed = 0.5;
-    let maxSpeed = 2;
-    
-    let self = {}
-    self.play = ()=>{
-        self.skip('backwards');
-        driver.play();
+
+    setTime(time){
+    	this.driver.setTime(time);
     }
-    self.pause = ()=>{
-        driver.pause();
-    }
-    self.getTime = ()=>{
-        return driver.isReady() ? driver.getTime() : 0;
-    }
-    self.setTime = (time)=>{
-        driver.setTime(time);
-    }
-    self.skip = (direction)=>{
-        if (direction === 'forwards') {
-            driver.setTime( self.getTime() + skipTime );
+
+    skip(direction){
+    	if (direction === 'forwards') {
+            this.driver.setTime( this.getTime() + this.skipTime );
         } else if ((direction === 'backwards') || direction === 'back') {
-            driver.setTime( self.getTime() - skipTime );
+            this.driver.setTime( this.getTime() - this.skipTime );
         } else {
             throw ('Skip requires a direction: forwards or backwards')
         }
-    },
-    self.getStatus = ()=>{
-        return driver.isReady() ? driver.getStatus() : 'inactive';
     }
-    self.getLength = ()=>{
-        return driver.isReady() ? driver.getLength() : 0;
+
+    getStatus(){
+    	return this.driver.isReady() ? this.driver.getStatus() : 'inactive';
     }
-    self.getSpeed = ()=>{
-        return driver.getSpeed();
+
+    getLength(){
+    	return this.driver.isReady() ? this.driver.getLength() : 0;
     }
-    self.setSpeed = (speed)=>{
-        if ((speed >= minSpeed) && (speed <= maxSpeed)) {
-            driver.setSpeed(speed);
+
+    getSpeed(){
+    	return this.driver.getSpeed();
+    }
+
+    setSpeed(speed){
+    	if ((speed >= this.minSpeed) && (speed <= this.maxSpeed)) {
+            this.driver.setSpeed(speed);
+        } else {
+            throw ('Speed is outside the min/max speed bounds')
         }
     }
-    self.speed = (direction)=>{
-        if (typeof direction === 'number') {
-            driver.setSpeed( direction );
+
+    speed(direction){
+    	if (typeof direction === 'number') {
+            this.driver.setSpeed( direction );
         } else if (direction === 'up') {
-            self.setSpeed( self.getSpeed() + speedIncrement );
+            this.setSpeed( this.getSpeed() + this.speedIncrement );
         } else if (direction === 'down') {
-            self.setSpeed( self.getSpeed() - speedIncrement );
+            this.setSpeed( this.getSpeed() - this.speedIncrement );
         } else {
             throw ('Speed requires a direction: up or down')
         }
     }
-	self.destroy = ()=>{
-		driver.destroy();
-	}
-    
-	let attempts = 0;
-    if (opts.onReady) {
-        checkIfReady();
-    };
 
-    function checkIfReady(callback){
-        if (driver.isReady()) {
-            opts.onReady();
-        } else if (attempts < 20000) {
-            setTimeout(checkIfReady,10);
-			attempts++;
-        } else {
-        	throw('Error with player driver');
-        }
+    destroy(){
+    	this.driver.destroy();
     }
-
-    return self;
 };
 
 Player.drivers = {
@@ -116,5 +129,3 @@ Player.drivers = {
 };
 
 export {Player as Player};
-
-

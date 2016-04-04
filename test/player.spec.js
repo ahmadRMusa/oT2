@@ -9,22 +9,22 @@ describe('audio player', function(){
     describe('init', function(){
         it('should throw an error if initialised without required options', () => {
             expect(() => {
-                let p = Player();
+                let p = new Player();
             }).to.throw();
             expect(() => {
-                let p = Player({
+                let p = new Player({
                     driver: Player.drivers.HTML5_AUDIO
                 });
             }).to.throw();
             expect(() => {
-                let p = Player({
+                let p = new Player({
                     source: 'xx'
                 });
             }).to.throw();
         });
         it('should initialise correctly', function(done){
             this.timeout(5000);
-            let p = Player({
+            let p = new Player({
                 driver: Player.drivers.HTML5_AUDIO,
                 source: mp3,
                 onReady: function(){ done(); }
@@ -33,19 +33,19 @@ describe('audio player', function(){
             done();
         });
         it('should destroy self', () => {
-            let p = Player({
+            let p = new Player({
                 driver: Player.drivers.HTML5_AUDIO,
                 source: mp3
             });
 			p.destroy();
             expect( document.querySelectorAll('audio').length ).to.equal( 0 );
         });
-		
+
     });
     describe('playback control', () => {
         it('should run tests onReady',function(done){
             this.timeout(5000);
-            var p = Player({
+            var p = new Player({
                 driver: Player.drivers.HTML5_AUDIO,
                 source: mp3,
                 onReady: ()=>{
@@ -90,13 +90,13 @@ describe('audio player', function(){
                 expect( p.getStatus() ).to.equal( 'loading' );
             });
         });
-        
+
 
     });
     describe('speed control', () => {
         it('should run tests onReady',function(done){
             this.timeout(5000);
-            let p = Player({
+            let p = new Player({
                 driver: Player.drivers.HTML5_AUDIO,
                 source: mp3,
                 onReady: ()=>{
@@ -128,5 +128,3 @@ describe('audio player', function(){
         });
     });
 });
-
-
