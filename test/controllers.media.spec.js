@@ -3,53 +3,32 @@ let Ractive = require('ractive');
 Ractive.DEBUG = false;
 let expect = require('chai').expect;
 
+let data = require('raw!./mp3.txt');
+let prefix = 'data:audio/mp3;base64,';
+let mp3 = prefix+data;
+
 let mediaController = MediaController({
     element: document.body
 });
 
 describe('mediaController', function(){
-    this.timeout(5000);
-    describe('basic functions', () => {
-        it('should return a Ractive instance', () => {
-            expect(mediaController).to.be.instanceof(Ractive);
-        });        
-        
-        /*
-        Restore these tests when proper loading-in of media is implemented
-        
-        it('should return time', () => {
-            expect(mediaController.get('time')).to.equal(0);
-        });        
-        it('should start playing', (done) => {
-            expect(mediaController.get('status')).to.equal('loading');
-            setTimeout(()=>{
-                expect(mediaController.get('status')).to.equal('paused');
-                mediaController.fire('playPause');
-                expect(mediaController.get('status')).to.equal('playing');
-                mediaController.fire('playPause');
-                done();
-            },3000);              
-        });        
-        it('should have formatted time', (done) => {
-            setTimeout(()=>{
-                expect( mediaController.get('status') ).to.equal('paused');
-                mediaController.fire('skipForwards');
-                setTimeout(()=>{
-                    mediaController.fire('skipForwards');
-                    setTimeout(()=>{
-                        mediaController.fire('skipForwards');
-                        setTimeout(()=>{
-                            mediaController.fire('skipForwards');
-                            setTimeout(()=>{
-                                expect(mediaController.get('time')).to.equal(6);
-                                expect(mediaController.get('timeFormatted')).to.equal('0:06');
-                                done();
-                            },10);
-                        },10);
-                    },10);
-                },10);
-            },2000);
-        });  
-        */      
+    it('should have an onReset method', () => {
+        expect(mediaController.onReset).to.be.a('function');
+    });        
+    it('should have setTime and getTime methods', () => {
+        mediaController.setTime(123);        
+        expect( mediaController.getTime() ).to.equal(0);
+    });        
+    it('should have a setFile method', () => {
+        mediaController.setFile({
+            url: mp3,
+            title: 'test'
+        });
+        expect(true).to.be.ok;
     });
 });
+
+// - onReset
+// - setFile
+// - getTime
+// - setTime

@@ -6,8 +6,16 @@ let template = require('raw!../templates/media.html');
 import {Player, DummyPlayer} from '../player';
 
 /*
-opts:
+Constructor opts:
 - element
+
+Instance methods:
+- onReset
+- setFile
+- getTime
+- setTime
+
+
 */
 function createMediaController(opts){
     const modelDefaults = {
@@ -66,7 +74,18 @@ function createMediaController(opts){
 	});
 	
 
-    return controller;
+    return {
+        setTime: time=>{
+            if ((typeof time === 'number') && player) {
+                player.setTime(time);
+            }
+        },
+        getTime: ()=> controller.get('time'),
+        setFile: file => controller.set('file',file),
+        onReset: fn=>{
+            controller.on('resetMedia',fn);
+        }
+    }
 }
 
 export {createMediaController as MediaController};
@@ -85,14 +104,6 @@ function integratePlayer(controller,player){
             controller.set('speed',player.getSpeed());
         }
     }
-
-    // use temporary write-only properties
-    // to prevent an endless loop
-    controller.observe('_time',(time)=>{
-        if (typeof time === 'number') {
-            player.setTime(time);
-        }
-    });
     
     let update = setInterval(updateStatus,5);
 

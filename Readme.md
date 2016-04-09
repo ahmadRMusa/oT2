@@ -51,6 +51,19 @@ Methods:
 - setLastMedia
 - find
 
+#### Media
+
+Constructor opts:
+
+- element
+
+Methods:
+
+- onReset
+- setFile
+- getTime
+- setTime
+
 
 ### Storage
 

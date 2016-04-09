@@ -13,8 +13,8 @@ let mediaController = MediaController({
 });
 let fileController = FileController({
     element: document.querySelector('.transcript-container'),
-    setTime: (time)=> mediaController.set('_time',time),
-    getTime: ()=> mediaController.get('time')
+    setTime: mediaController.setTime,
+    getTime: mediaController.getTime
 });
 let pickerController = PickerController({
     element: fileController.find('.picker-container')
@@ -23,7 +23,7 @@ let storageController = StorageController({
     element: document.querySelector('.storage-container')
 });
 pickerController.observe('file',(file)=>{
-	mediaController.set('file',file);
+	mediaController.setFile(file);
 	fileController.setFileLoaded(!!file.url);
 	console.log('file.title',file.title)
 	if (file.title) {
@@ -31,7 +31,7 @@ pickerController.observe('file',(file)=>{
 		pickerController.set('lastMedia',file.title);
 	}
 });
-mediaController.on('resetMedia',()=>{
+mediaController.onReset(()=>{
 	pickerController.fire('resetPicker');
 	fileController.setFileLoaded(false);
 });
