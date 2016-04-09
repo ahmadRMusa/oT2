@@ -1,24 +1,34 @@
 import {FileController} from '../src/controllers/file';
-let Ractive = require('ractive');
-let Scribe = require('scribe-editor');
-Ractive.DEBUG = false;
 let expect = require('chai').expect;
 
-let [fileController, scribe] = FileController({
+let fileController = FileController({
     element: document.body
 });
 
 describe('fileController', () => {
-    describe('basic functions', () => {
-        it('should return a Ractive instance and a scribe instance', () => {
-            expect(fileController).to.be.instanceof(Ractive);
-            expect(scribe).to.be.instanceof(Scribe);
+    it('should have a getFile method', () => {
+        expect(fileController.getFile().text).to.equal('');
+    });
+    it('should have a setFile method', () => {
+        fileController.setFile({
+            text: 'test'
         });
-        it('should read and write the text property', () => {
-            let testString = '<p>TESTING</p>';
-            fileController.set('text',testString);
-            expect(fileController.get('text',testString)).to.equal(testString);
-        });
-        
+        expect(fileController.getFile().text).to.equal('test');
+    });
+    it('should have an onSave method', () => {
+        expect(fileController.onSave).to.be.a('function');
+    });
+    it('should have a setFileLoaded method', () => {
+        fileController.setFileLoaded(true);
+        expect(fileController.getFile().fileLoaded).to.equal(true);
+        fileController.setFileLoaded(false);
+        expect(fileController.getFile().fileLoaded).to.equal(false);
+    });
+    it('should have a setLastMedia method', () => {
+        fileController.setLastMedia('xyz');
+        expect(fileController.getFile().lastMedia).to.equal('xyz');
+    });
+    it('should have a find method', () => {
+        expect( fileController.find('.text-editor-container') ).to.be.an.instanceOf(Node);
     });
 });

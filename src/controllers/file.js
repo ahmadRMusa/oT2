@@ -6,10 +6,19 @@ import {timestampPlugin} from '../scribe-timestamp-plugin';
 let Mousetrap = require('mousetrap');
 
 /*
-opts:
+contructor opts:
 - element
 - setTime (callback that takes time in seconds as argument)
 - getTime (callback that returns time in seconds)
+
+returns object with methods:
+- getFile
+- setFile
+- onSave
+- setFileLoaded
+- setLastMedia
+- find
+
 */
 function createFileController(opts){
     let model = {
@@ -86,8 +95,32 @@ function createFileController(opts){
             timestamps[i].addEventListener('click',setFromTimestamp);
         }
     }
-
-    return [controller, scribe];
+    
+    let onSaveFn = ()=>{};
+    controller.on('save',()=>{
+        onSaveFn();
+    });
+    
+    return {
+        getFile: file=>{
+            return controller.get();
+        },
+        setFile: file=>{
+            controller.set(file);            
+        },
+        onSave: fn=>{
+            onSaveFn = fn;
+        },
+        setFileLoaded: bool=>{
+            controller.set('fileLoaded',bool);
+        },
+        setLastMedia: media=>{
+    		controller.set('lastMedia',media);  
+        },
+        find: selector => {
+            return controller.find(selector)
+        }
+    }
 }
 
 export {createFileController as FileController};

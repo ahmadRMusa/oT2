@@ -11,7 +11,7 @@ import {Storage} from './storage';
 let mediaController = MediaController({
     element: document.querySelector('.media-container')
 });
-let [fileController, scribe] = FileController({
+let fileController = FileController({
     element: document.querySelector('.transcript-container'),
     setTime: (time)=> mediaController.set('_time',time),
     getTime: ()=> mediaController.get('time')
@@ -24,17 +24,16 @@ let storageController = StorageController({
 });
 pickerController.observe('file',(file)=>{
 	mediaController.set('file',file);
-	fileController.set('fileLoaded',!!file.url);
+	fileController.setFileLoaded(!!file.url);
 	console.log('file.title',file.title)
 	if (file.title) {
-		fileController.set('lastMedia',file.title);
+        fileController.setLastMedia(file.title);
 		pickerController.set('lastMedia',file.title);
 	}
-	console.log(fileController.get(),pickerController.get())
 });
 mediaController.on('resetMedia',()=>{
 	pickerController.fire('resetPicker');
-	fileController.set('fileLoaded',false);
+	fileController.setFileLoaded(false);
 });
 // let storage = localforage.createInstance({
 //     name: 'oTranscribe'
@@ -51,7 +50,7 @@ storage.list().then(function(list){
     if (list.length > 0) {
         storage.load(list[0].id)
         .then(function(file){
-            fileController.set(file);
+            fileController.setFile(file);
 			pickerController.set('lastMedia',file.lastMedia);
         }, storageError);
     } else {
@@ -61,8 +60,8 @@ storage.list().then(function(list){
         });
     }
     
-    fileController.on('save',function(){
-        let current = fileController.get();
+    fileController.onSave(function(){
+        let current = fileController.getFile();
         storage.save(current).then(function(){
             console.log('Saved files');
         }, storageError);

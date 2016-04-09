@@ -32,7 +32,25 @@ Assuming you have already installed dependencies, run:
 
 ### Controllers
 
-These are [Ractive](http://www.ractivejs.org) instances that control the HTML on the page. They live in the **controllers** directory, and their corresponding HTML templates are in the **templates directory**.
+These are functions which use [Ractive](http://www.ractivejs.org) to control the HTML on the page. They live in the **controllers** directory, and their corresponding HTML templates are in the **templates directory**.
+
+#### File
+
+Contructor opts:
+
+- element
+- setTime (callback that takes time in seconds as argument)
+- getTime (callback that returns time in seconds)
+
+Methods:
+
+- getFile
+- setFile
+- onSave
+- setFileLoaded
+- setLastMedia
+- find
+
 
 ### Storage
 
