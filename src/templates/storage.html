@@ -1,12 +1,14 @@
-<div style="position: fixed; top: 36px; z-index: 400; background: white; width: 100%;">
+<div style="position: fixed; top: 36px; z-index: 400; background: rgba(255,255,255,0.5); width: 100%;">
     
     
-    <div class="new-transript">New transcript</div>
+    <div class="new-transript" on-click="newFile">New transcript</div>
     <ul>
         {{#each files}}
         <li on-click="selectFile" data-id="{{id}}" class="file-item {{#active}}active{{/}}">
-            <p>{{id}} -- {{dateFormatted}}</p>
+            <p>ID: {{id}}</p>
+            <p>{{dateFormatted}}</p>
             <p>{{#if lastMedia}} Last file: {{lastMedia}}{{/if}}</p>
+            <p>{{wordCount}} words</p>
             <p>{{text}}</p>
         </li>
         {{/each}}

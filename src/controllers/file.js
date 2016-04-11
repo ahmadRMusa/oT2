@@ -78,12 +78,7 @@ function createFileController(opts){
             return false;
         });
     });
-	
-	setInterval(()=>{
-		// the event this fires is set in index.js
-		controller.fire('save');
-	},1*1000);
-    
+	    
     function setFromTimestamp(){
         opts.setTime( +this.dataset.timestamp );
     };

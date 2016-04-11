@@ -6,7 +6,6 @@ import {FileController} from './controllers/file';
 import {PickerController} from './controllers/picker';
 import {MediaController} from './controllers/media';
 import {StorageController} from './controllers/storage';
-import {Storage} from './storage';
 
 let mediaController = MediaController({
     element: document.querySelector('.media-container')
@@ -20,7 +19,12 @@ let pickerController = PickerController({
     element: fileController.find('.picker-container')
 });
 let storageController = StorageController({
-    element: document.querySelector('.storage-container')
+    element: document.querySelector('.storage-container'),
+    getEditorContents: ()=>fileController.getFile(),
+    onFileChange: (file)=>{
+        fileController.setFile(file);
+    	pickerController.set('lastMedia',file.lastMedia);    
+    }
 });
 pickerController.observe('file',(file)=>{
 	mediaController.setFile(file);
@@ -35,51 +39,12 @@ mediaController.onReset(()=>{
 	pickerController.fire('resetPicker');
 	fileController.setFileLoaded(false);
 });
-// let storage = localforage.createInstance({
-//     name: 'oTranscribe'
-// });
-
-// storage.getItem('settings')
-//     .then(applySettings,storageError)
-//     .then();
-
-let storage = Storage({
-    /* no opts needed... yet */
-});
-storage.list().then(function(list){
-    if (list.length > 0) {
-        storage.load(list[0].id)
-        .then(function(file){
-            fileController.setFile(file);
-			pickerController.set('lastMedia',file.lastMedia);
-        }, storageError);
-    } else {
-        fileController.set({
-            id: +(new Date()),
-            text: 'Blank document text.....'
-        });
-    }
-    
-    fileController.onSave(function(){
-        let current = fileController.getFile();
-        storage.save(current).then(function(){
-            console.log('Saved files');
-        }, storageError);
-    });
-}, storageError);
 
 
-function applySettings(value){
-    if (value !== null) {
-        settings.skipTime = value.skipTime || settings.skipTime;
-    }
-    return new Promise(function(resolve, reject) {
-        resolve();
-    });
-}
+// setInterval(()=>{
+//     console.log(fileController.getFile().id);
+//     storageController.updateFile(fileController.getFile());
+// },1000*1);
 
-function storageError(error){
-    console.error('Problem using storage.', error);
-}
 
 
