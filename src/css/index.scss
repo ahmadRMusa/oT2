@@ -1,7 +1,8 @@
 @import "reset";
 
 $accent: rgb(52, 130, 177);
-$dark: hsl(0,0,15);
+$dark: hsl(0,0,15); // use instead of black
+$danger:#B90000;
 
 @mixin button{
     color: white;

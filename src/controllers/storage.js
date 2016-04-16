@@ -18,8 +18,12 @@ function createController(opts){
     
     let model = {
         activeFileId: 0,
-        files: []
+        files: [],
+        visible: true
     };
+    // setInterval(()=>{
+    //     controller.set('visible', !controller.get('visible'))
+    // },10000);
     let computed = {
         activeFile: {
             set: setActiveFile,
@@ -80,6 +84,10 @@ function createController(opts){
     controller.on('selectFile',(e)=>{
         let id = findAncestor(e.node,'file-item').dataset.id;
         setActiveFileById( parseInt(id) );
+        controller.set('visible', false);
+    });
+    controller.on('hidePanel',(e)=>{
+        controller.set('visible', false);
     });
     function setActiveFileById(id){
         controller.set('activeFileId',id);
