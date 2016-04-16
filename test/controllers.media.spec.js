@@ -7,8 +7,10 @@ let data = require('raw!./mp3.txt');
 let prefix = 'data:audio/mp3;base64,';
 let mp3 = prefix+data;
 
+var testDiv = document.createElement('div');
+document.body.appendChild(testDiv);
 let mediaController = MediaController({
-    element: document.body
+    element: testDiv
 });
 
 describe('mediaController', function(){
@@ -25,8 +27,14 @@ describe('mediaController', function(){
             title: 'test'
         });
         expect(true).to.be.ok;
+        // cleanup
+        var audio = document.querySelectorAll('audio');
+        for (var i = 0; i < audio.length; i++) {
+            audio[i].parentElement.removeChild(audio[i]);
+        }
     });
 });
+
 
 // - onReset
 // - setFile

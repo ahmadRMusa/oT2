@@ -51,7 +51,6 @@ function createMediaController(opts){
 	let player = false;
 	let disintegratePlayer = false;
 	controller.observe('file',(file)=>{
-		console.log('media:file',file)		
 		if (file.url) {
 		    player = new Player({
 		        driver: Player.drivers.HTML5_AUDIO,
