@@ -19,7 +19,12 @@ module.exports = {
         test: /\.js?$/, // Another convention is to use the .es6 filetype, but you then
                         // have to supply that explicitly in import statements, which isn't cool.
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          presets: ['es2015', 'stage-2']
+        }
+          
       },
       // This nifty bit of magic right here allows us to load entire JSON files
       // synchronously using `require`, just like in NodeJS.
