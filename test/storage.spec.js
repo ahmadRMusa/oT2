@@ -27,9 +27,25 @@ describe('basic storage', () => {
             storage.save(file).then(() => {
                 storage.list().then((result) => {
                     expect( result ).to.have.lengthOf(1);
-                    expect( result [0].id ).to.equal(234234);
+                    expect( result[0].id ).to.equal(234234);
                     done();
+                },err=>{
+                    throw(err);
                 });
+            },err=>{
+                throw(err);
+            });
+            
+        });
+        it('should have a last modified date', function(done) {
+            storage.list().then((result) => {
+                expect( result ).to.have.lengthOf(1);
+                expect( result[0].lastModified ).to.be.ok;
+                expect( result[0].lastModified ).to.be.a('number');
+                done();
+            },err=>{
+                throw(err);
+                expect( false ).to.be.ok;
             });
             
         });

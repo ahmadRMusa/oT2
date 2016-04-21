@@ -50,6 +50,7 @@ let Storage = function(opts){
                 console.error('Bad id');
                 reject();
             }
+            file.lastModified = +(new Date());
             storage.setItem('file-'+file.id,file)
             .then(function(){
                 saveToList(file)
@@ -67,7 +68,7 @@ let Storage = function(opts){
                     list = [];
                 }
                 list = list.sort(function(a,b){
-                    return b.date - a.date;
+                    return b.lastModified - a.lastModified;
                 });
                 resolve(list);
             }, reject);
@@ -90,12 +91,12 @@ let Storage = function(opts){
                 });
                 if (listIndex < 0) {
                     list.push({
-                        date: file.date,
+                        lastModified: file.lastModified,
                         text: file.text,
                         id: file.id
                     });
                 } else {
-                    list[listIndex].date = file.date;
+                    list[listIndex].lastModified = file.lastModified;
                     list[listIndex].text = file.text;
                 }
                 storage.setItem('file-list',list)
