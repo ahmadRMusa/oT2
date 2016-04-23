@@ -11,6 +11,8 @@ opts:
 - element
 - getEditorContents
 - onFileChange
+- onOpen
+- onClose
 */
 function createController(opts){
 
@@ -89,6 +91,13 @@ function createController(opts){
     controller.on('togglePanel',(e)=>{
         controller.set('visible', !controller.get('visible'));
     });
+    controller.observe('visible',(val)=>{
+        if (val && opts.onOpen) {
+            opts.onOpen();
+        } else if (!val && opts.onClose) {
+            opts.onClose();
+        }
+    })
     function setActiveFileById(id){
         controller.set('activeFileId',id);
     }
@@ -130,7 +139,7 @@ function createController(opts){
     function save(){
 		storage.save( controller.get('activeFile'), storageError );
         storage.list().then((f)=>{
-            console.log('saved files',f);
+            // saved active file
         },storageError);
     }
     

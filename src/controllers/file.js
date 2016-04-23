@@ -84,9 +84,7 @@ function createFileController(opts){
     };
     function addTimestampEvents(){
         let timestamps = opts.element.querySelectorAll('.timestamp');
-        // console.log(timestamps)
         for (var i = 0; i < timestamps.length; i++) {
-            // timestamps[i].removeEventListener('click',setFromTimestamp);
             timestamps[i].addEventListener('click',setFromTimestamp);
         }
     }
@@ -114,6 +112,12 @@ function createFileController(opts){
         },
         find: selector => {
             return controller.find(selector)
+        },
+        lock: ()=>{
+            scribe.el.setAttribute('contentEditable',false);
+        },
+        unlock: ()=>{
+            scribe.el.setAttribute('contentEditable',true);
         }
     }
 }

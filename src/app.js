@@ -22,12 +22,13 @@ let storageController = StorageController({
     onFileChange: (file)=>{
         fileController.setFile(file);
     	pickerController.set('lastMedia',file.lastMedia);    
-    }
+    },
+    onOpen: fileController.lock,
+    onClose: fileController.unlock
 });
 pickerController.observe('file',(file)=>{
 	mediaController.setFile(file);
 	fileController.setFileLoaded(!!file.url);
-	console.log('file.title',file.title)
 	if (file.title) {
         fileController.setLastMedia(file.title);
 		pickerController.set('lastMedia',file.title);
@@ -37,12 +38,6 @@ mediaController.onReset(()=>{
 	pickerController.fire('resetPicker');
 	fileController.setFileLoaded(false);
 });
-
-
-// setInterval(()=>{
-//     console.log(fileController.getFile().id);
-//     storageController.updateFile(fileController.getFile());
-// },1000*1);
 
 
 

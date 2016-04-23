@@ -50,6 +50,8 @@ Methods:
 - setFileLoaded
 - setLastMedia
 - find
+- lock
+- unlock
 
 #### Media
 

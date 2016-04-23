@@ -31,4 +31,11 @@ describe('fileController', () => {
     it('should have a find method', () => {
         expect( fileController.find('.text-editor-container') ).to.be.an.instanceOf(Node);
     });
+    it('should have lock and unlock methods', () => {
+        expect( fileController.find('.text-editor').getAttribute('contentEditable') ).to.equal('true');
+        fileController.lock();
+        expect( fileController.find('.text-editor').getAttribute('contentEditable') ).to.equal('false');
+        fileController.unlock();
+        expect( fileController.find('.text-editor').getAttribute('contentEditable') ).to.equal('true');
+    });
 });
