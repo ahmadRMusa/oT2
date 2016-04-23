@@ -19,7 +19,7 @@ function createController(opts){
     let model = {
         activeFileId: 0,
         files: [],
-        visible: true
+        visible: false
     };
     // setInterval(()=>{
     //     controller.set('visible', !controller.get('visible'))
@@ -86,8 +86,8 @@ function createController(opts){
         setActiveFileById( parseInt(id) );
         controller.set('visible', false);
     });
-    controller.on('hidePanel',(e)=>{
-        controller.set('visible', false);
+    controller.on('togglePanel',(e)=>{
+        controller.set('visible', !controller.get('visible'));
     });
     function setActiveFileById(id){
         controller.set('activeFileId',id);
@@ -118,6 +118,10 @@ function createController(opts){
     
     Mousetrap.bind('mod+s', ()=>{
         save();
+        return false;
+    });
+    Mousetrap.bind('mod+o', ()=>{
+        controller.set('visible', !controller.get('visible'));
         return false;
     });
 

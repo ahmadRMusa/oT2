@@ -1,3 +1,23 @@
+.file-storage-activate-button {
+    position: absolute;
+    top: 56px;
+    right: 20px;
+    z-index: 10;
+    border: 1px solid #aaa;
+    padding: 10px 14px;
+    border-radius: 3px;
+    background: #f1f1f1;
+    &:hover {
+        cursor: pointer;
+        background: white;
+    }
+    &:active {
+        background: #d1d1d1;
+    }
+}
+
+
+
 .file-storage-wrapper {
     position: fixed;
     overflow-y: scroll;

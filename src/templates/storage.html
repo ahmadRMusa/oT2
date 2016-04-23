@@ -1,3 +1,7 @@
+<div class="file-storage-activate-button" on-click="togglePanel">
+    Files
+</div>
+
 <div class="file-storage-wrapper {{#visible}}file-storage-visible{{/}}">
     
     <div class="main-column">
@@ -5,7 +9,7 @@
         <div class="top-buttons">
             <div class="new-transript" role="button" on-click="newFile">New transcript</div>
             <div class="import-transcript" role="button" on-click="importFile">Import OTR file</div>
-            <div class="hide-storage-panel" role="button" on-click="hidePanel">
+            <div class="hide-storage-panel" role="button" on-click="togglePanel">
                 <i class="fa fa-close"></i>
                 X
             </div>
