@@ -1,6 +1,6 @@
 let Ractive = require('ractive');
 Ractive.DEBUG = false;
-let template = require('raw!../templates/file.html');
+let template = require('raw!../templates/editor.html');
 let Scribe = require('scribe-editor');
 import {timestampPlugin} from '../scribe-timestamp-plugin';
 let Mousetrap = require('mousetrap');
@@ -20,7 +20,7 @@ returns object with methods:
 - find
 
 */
-function createFileController(opts){
+function createEditorController(opts){
     let model = {
         date: +(new Date()),
         lastMedia: "",
@@ -33,7 +33,11 @@ function createFileController(opts){
             return this.get('text');
         },
         wordCount: 0,
-		fileLoaded: false
+		fileLoaded: false,
+        formatting: {
+            bold: false,
+            italic: false
+        }
     };
 
     
@@ -88,6 +92,13 @@ function createFileController(opts){
             timestamps[i].addEventListener('click',setFromTimestamp);
         }
     }
+
+    // detect when selected text is bold or italic and update UI accordingly
+    setInterval(function(){
+        controller.set('formatting.bold', document.queryCommandState("Bold"));
+        controller.set('formatting.italic', document.queryCommandState("italic"));
+    }, 100);
+    
     
     let onSaveFn = ()=>{};
     controller.on('save',()=>{
@@ -122,7 +133,7 @@ function createFileController(opts){
     }
 }
 
-export {createFileController as FileController};
+export {createEditorController as EditorController};
 
 
 // small utility for getting the word count of a string
@@ -134,4 +145,6 @@ function countWords(str){
     }
     return 0;
 }
+
+
 

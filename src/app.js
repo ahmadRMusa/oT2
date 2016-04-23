@@ -1,6 +1,6 @@
 
 let localforage = require('localforage');
-import {FileController} from './controllers/file';
+import {EditorController} from './controllers/editor';
 import {PickerController} from './controllers/picker';
 import {MediaController} from './controllers/media';
 import {StorageController} from './controllers/storage';
@@ -8,35 +8,35 @@ import {StorageController} from './controllers/storage';
 let mediaController = MediaController({
     element: document.querySelector('.media-container')
 });
-let fileController = FileController({
+let editorController = EditorController({
     element: document.querySelector('.transcript-container'),
     setTime: mediaController.setTime,
     getTime: mediaController.getTime
 });
 let pickerController = PickerController({
-    element: fileController.find('.picker-container')
+    element: editorController.find('.picker-container')
 });
 let storageController = StorageController({
     element: document.querySelector('.storage-container'),
-    getEditorContents: ()=>fileController.getFile(),
+    getEditorContents: ()=>editorController.getFile(),
     onFileChange: (file)=>{
-        fileController.setFile(file);
+        editorController.setFile(file);
     	pickerController.set('lastMedia',file.lastMedia);    
     },
-    onOpen: fileController.lock,
-    onClose: fileController.unlock
+    onOpen: editorController.lock,
+    onClose: editorController.unlock
 });
 pickerController.observe('file',(file)=>{
 	mediaController.setFile(file);
-	fileController.setFileLoaded(!!file.url);
+	editorController.setFileLoaded(!!file.url);
 	if (file.title) {
-        fileController.setLastMedia(file.title);
+        editorController.setLastMedia(file.title);
 		pickerController.set('lastMedia',file.title);
 	}
 });
 mediaController.onReset(()=>{
 	pickerController.fire('resetPicker');
-	fileController.setFileLoaded(false);
+	editorController.setFileLoaded(false);
 });
 
 

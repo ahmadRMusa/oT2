@@ -9,10 +9,10 @@
     -->
     <div class="editor-side-panel {{#if fileLoaded}}editing{{/if}}">
         <button class="sbutton bold" on-click="bold">
-            <i class="fa fa-bold" id="icon-b"></i><span class="label">ctrl+b</span>
+            <i class="fa fa-bold {{#if formatting.bold}}active{{/if}}" id="icon-b"></i><span class="label">ctrl+b</span>
         </button>
         <button class="sbutton italic" on-click="italic">
-            <i class="fa fa-italic" id="icon-i"></i><span class="label">ctrl+i</span>
+            <i class="fa fa-italic {{#if formatting.italic}}active{{/if}}" id="icon-i"></i><span class="label">ctrl+i</span>
         </button>
         <!--
             Note: .time currently requires .active class to appear
