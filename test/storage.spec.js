@@ -49,5 +49,30 @@ describe('basic storage', () => {
             });
             
         });
+        it('should sort files by last modified', function(done) {
+            storage.save({
+                id: 3
+            }).then(()=>{
+                storage.save({
+                    id: 234234
+                }).then(()=>{
+                    storage.list().then((result) => {
+                        expect( result ).to.have.lengthOf(2);
+                        expect( result[0].id ).to.equal(234234);
+                        done();
+                    },err=>{
+                        throw(err);
+                        expect( false ).to.be.ok;
+                    });
+                },err=>{
+                    throw(err);
+                    expect( false ).to.be.ok;
+                })
+            },err=>{
+                throw(err);
+                expect( false ).to.be.ok;
+            });
+            
+        });
     });
 });

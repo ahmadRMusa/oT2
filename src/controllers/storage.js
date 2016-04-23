@@ -111,7 +111,7 @@ function createController(opts){
             if (activeFileId) {
                 setActiveFileById(activeFileId);
             } else if(files.length > 0) {
-                setActiveFileById( files[files.length-1].id );
+                setActiveFileById( files[0].id );
             }
         },storageError);
     }
