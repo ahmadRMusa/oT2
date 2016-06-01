@@ -44,13 +44,15 @@ let Storage = function(opts){
 
     }
 
-    function save(file){
+    function save(file, preserveTimestamp){
         let promise = new Promise(function(resolve, reject) {
             if (!file.id) {
                 console.error('Bad id');
                 reject();
             }
-            file.lastModified = +(new Date());
+            if (!preserveTimestamp) {
+                file.lastModified = +(new Date());
+            }
             storage.setItem('file-'+file.id,file)
             .then(function(){
                 saveToList(file)

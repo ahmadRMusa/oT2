@@ -30,6 +30,12 @@ function createController(opts){
         activeFile: {
             set: setActiveFile,
             get: getActiveFile
+        },
+        normalFiles: ()=> {
+            return controller.get('files').filter(f=> !f.trashed);
+        },
+        trashedFiles: ()=> {
+            return controller.get('files').filter(f=> f.trashed);
         }
     }
     
@@ -88,6 +94,37 @@ function createController(opts){
         setActiveFileById( parseInt(id) );
         controller.set('visible', false);
     });
+    controller.on('trashFile',(e)=>{
+        let id = +findAncestor(e.node,'file-item').dataset.id;
+        let files = controller.get('files');
+        let trashedFile;
+        files.forEach(f=> {
+            if (f.id === id) {
+                f.trashed = true;
+                trashedFile = f;
+            }
+        });
+		storage
+            .save( trashedFile, true)
+            .then(null, storageError);
+        controller.set('files',files);
+    });
+    controller.on('restoreFile',(e)=>{
+        let id = +findAncestor(e.node,'file-item').dataset.id;
+        let files = controller.get('files');
+        let restoredFile;
+        files.forEach(f=> {
+            if (f.id === id) {
+                f.trashed = false;
+                restoredFile = f;
+            }
+        });
+    	storage
+            .save( restoredFile, true)
+            .then(null, storageError);
+        
+        controller.set('files',files);
+    });
     controller.on('togglePanel',(e)=>{
         controller.set('visible', !controller.get('visible'));
     });
@@ -97,7 +134,11 @@ function createController(opts){
         } else if (!val && opts.onClose) {
             opts.onClose();
         }
-    })
+    });
+    controller.observe('files',()=>{
+        controller.update('normalFiles')
+        controller.update('trashedFiles');
+    });
     function setActiveFileById(id){
         controller.set('activeFileId',id);
     }

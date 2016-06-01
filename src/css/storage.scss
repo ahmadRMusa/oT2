@@ -94,7 +94,19 @@
     
 }
 
-.delete-file {
+.trash-container {
+    padding:1px 15px;
+    background: #f2f2f2;
+    margin-top: 20px;
+}
+
+.trash-header {
+    font-size: 24px;
+    margin: 20px 0;
+    font-weight: 500;
+}
+
+.trash-file {
     position: absolute;
     bottom: 20px;
     right: 20px;

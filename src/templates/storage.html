@@ -15,19 +15,19 @@
             </div>
         </div>
         <ul>
-            {{#each files}}
-            <li on-click="selectFile" data-id="{{id}}" class="file-item {{#active}}active{{/}}">
+            {{# normalFiles }}
+            <li data-id="{{id}}" class="file-item {{#active}}active{{/}}">
 
                 <div class="transcript-preview">
                     {{{text}}}
                 </div>
                 <div class="file-right">
                     {{^active}}
-                    <div class="open-file" role="button" onClick="selectFile" data-id="{{id}}">Open</div>
+                    <div class="open-file" role="button" on-click="selectFile" data-id="{{id}}">Open</div>
                     {{/active}}
                     <div class="export-file" role="button">Export</div>
                     <div class="view-history" role="button">History</div>
-                    <div class="delete-file" role="button" onClick="" data-id="{{id}}">Delete</div>
+                    <div class="trash-file" role="button" on-click="trashFile">Move to trash</div>
                 
                     <p>ID: {{id}}</p>
                     <p>date of last edit: {{lastModified}}</p>
@@ -38,6 +38,29 @@
             </li>
             {{/each}}
         </ul>
+        
+        <div class="trash-container">
+            <p class="trash-header">Trash</p>
+            <ul>
+                {{#each trashedFiles }}
+                <li data-id="{{id}}" class="file-item {{#active}}active{{/}}">
+
+                    <div class="transcript-preview">
+                        {{{text}}}
+                    </div>
+                    <div class="file-right">
+                        <div class="open-file" role="button" on-click="restoreFile" data-id="{{id}}">Restore</div>
+                
+                        <p>ID: {{id}}</p>
+                        <p>date of last edit: {{lastModified}}</p>
+                        <p>{{dateFormatted}}</p>
+                        <p>{{#if lastMedia}} Last file: {{lastMedia}}{{/if}}</p>
+                        <p>{{wordCount}} words</p>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
         
     </div>
     
