@@ -90,14 +90,9 @@ let Storage = function(opts){
                     }
                 });
                 if (listIndex < 0) {
-                    list.push({
-                        lastModified: file.lastModified,
-                        text: file.text,
-                        id: file.id
-                    });
+                    list.push(file);
                 } else {
-                    list[listIndex].lastModified = file.lastModified;
-                    list[listIndex].text = file.text;
+                    list[listIndex] = file;
                 }
                 storage.setItem('file-list',list)
                 .then(resolve,reject);
