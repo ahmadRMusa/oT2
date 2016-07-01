@@ -42,7 +42,8 @@
 
 .hide-storage-panel {
     float: right;
-    font-size: 50px;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 .main-column {
@@ -102,8 +103,14 @@
 
 .trash-header {
     font-size: 24px;
-    margin: 20px 0;
+    margin: 10px 0;
     font-weight: 500;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #f2f2f2;
+    padding: 10px 0;
 }
 
 .trash-file {
