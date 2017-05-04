@@ -1,3 +1,8 @@
+
+This attempt to rebuild oTranscribe from the ground up ultimately failed. But oTranscribe itself was renovated and is looking better than ever! The moral of the story is: try, try and try again. —Elliot
+
+---
+
 # oTranscribe2
 
 This is an attempt to rebuild oTranscribe from the ground up. It's not quite ready to use yet, though.
